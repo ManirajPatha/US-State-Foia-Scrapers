@@ -1,4 +1,3 @@
-
 # Required libraries:
 # pip install requests pandas openpyxl
 
@@ -11,8 +10,8 @@ import json
 from urllib.parse import quote
 import pandas as pd
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 def classify_opportunity(title: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
@@ -38,6 +37,7 @@ def classify_opportunity(title: Optional[str]) -> Tuple[Optional[str], Optional[
 
     return ("Miscellaneous", "General")
 
+
 def parse_date_from_api(api_date: Optional[int]) -> Optional[str]:
     """
     Parses a Unix timestamp (in milliseconds) from the API into a date string (YYYY-MM-DD).
@@ -54,7 +54,7 @@ def parse_date_from_api(api_date: Optional[int]) -> Optional[str]:
 def scrape_connecticut_awarded():
     """
     Scrapes AWARDED bidding opportunities from the Connecticut (CTSource)
-    procurement portal and saves them to an Excel file.
+    procurement portal and saves them to an Excel file for the current year.
     """
     CUSTOMER_ID = "51"
     SOURCE_NAME = "Connecticut"
@@ -206,20 +206,31 @@ def scrape_connecticut_awarded():
         logging.error(f"An unexpected error occurred: {e}", exc_info=True)
     finally:
         if scraped_data:
-            output_filename = "connecticut_awarded_bids2.xlsx"
-            logging.info(f"Saving {len(scraped_data)} awarded bids to {output_filename}...")
+            output_filename = "connecticut_awarded_bids.xlsx"
             df = pd.DataFrame(scraped_data)
 
-           
+            
+            df["publish_date"] = pd.to_datetime(df["publish_date"], errors="coerce")
             df["closing_date"] = pd.to_datetime(df["closing_date"], errors="coerce")
 
-            
-            df = df.sort_values(by="closing_date", ascending=False, na_position="last").head(100)
+           
+            current_year = datetime.now().year
+            df = df[df["publish_date"].dt.year == current_year]
 
-            df.to_excel(output_filename, index=False, engine="openpyxl")
-            logging.info(f" Successfully saved data to {output_filename}")
+            if not df.empty:
+                
+                df = df.sort_values(by="closing_date", ascending=False, na_position="last")
+
+              l
+                output_filename = f"connecticut_awarded_bids_{current_year}.xlsx"
+                logging.info(f"Saving {len(df)} awarded bids from {current_year} to {output_filename}...")
+                df.to_excel(output_filename, index=False, engine="openpyxl")
+                logging.info(f"Successfully saved data to {output_filename}")
+            else:
+                logging.warning(f"No awarded bids found for {current_year}.")
         else:
             logging.warning("No data was scraped, so no Excel file was created.")
+
 
 if __name__ == "__main__":
     scrape_connecticut_awarded()
