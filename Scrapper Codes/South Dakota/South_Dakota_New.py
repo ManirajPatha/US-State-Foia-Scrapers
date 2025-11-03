@@ -25,6 +25,47 @@ chrome_options.add_experimental_option("prefs", {
     "profile.default_content_setting_values.automatic_downloads": 1
 })
 
+def scrape_contact_info(driver):
+    """Scrape contact information from the detail page."""
+    contact_data = {"Name": "", "Phone": "", "Email": "", "Address": ""}
+    
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'panelContainer')]"))
+        )
+        time.sleep(3)
+        
+        try:
+            name_elem = driver.find_element(By.XPATH, "//b[contains(text(), 'Name:')]/parent::p")
+            contact_data["Name"] = name_elem.text.replace('Name:', '').strip()
+        except:
+            logging.debug("Name not found")
+        
+        try:
+            phone_elem = driver.find_element(By.XPATH, "//b[contains(text(), 'Phone:')]/parent::p")
+            contact_data["Phone"] = phone_elem.text.replace('Phone:', '').strip()
+        except:
+            logging.debug("Phone not found")
+        
+        try:
+            email_elem = driver.find_element(By.XPATH, "//b[contains(text(), 'Email:')]/parent::p")
+            contact_data["Email"] = email_elem.text.replace('Email:', '').strip()
+        except:
+            logging.debug("Email not found")
+        
+        try:
+            address_elem = driver.find_element(By.XPATH, "//div[contains(@class, 'contact-address')]")
+            full_address = address_elem.text.replace('Address:', '').strip()
+            contact_data["Address"] = full_address
+        except:
+            logging.debug("Address not found")
+            
+    except Exception as e:
+        logging.warning(f"Error scraping contact info: {e}")
+    
+    return contact_data
+
+
 def wait_and_rename_zip(event_id):
     """Wait for the zip download to complete and rename it with event_id."""
     max_wait = 60
@@ -45,6 +86,7 @@ def wait_and_rename_zip(event_id):
             new_name = f"{event_id}_event_documents.zip"
             new_path = os.path.join(DOWNLOAD_DIR, new_name)
             
+            # Avoid overwriting if already exists
             counter = 1
             while os.path.exists(new_path):
                 new_name = f"{event_id}_event_documents_{counter}.zip"
@@ -111,7 +153,7 @@ def click_back_arrow(driver):
         )
         driver.execute_script("arguments[0].click();", back_button)
         time.sleep(4)
-        logging.debug("Clicked back arrow successfully")
+        logging.info("Clicked back arrow successfully")
 
         try:
             WebDriverWait(driver, 8).until(
@@ -122,6 +164,7 @@ def click_back_arrow(driver):
             logging.warning("Past Opportunities list not visible, refreshing page...")
             driver.refresh()
             time.sleep(6)
+            # Ensure 'Past Opportunities' tab is active again
             try:
                 past_tab = WebDriverWait(driver, 15).until(
                     EC.element_to_be_clickable((By.XPATH, "//div[contains(text(), 'Past Opportunities')]"))
@@ -221,7 +264,6 @@ try:
     driver.get(BASE_URL)
     time.sleep(5)
     
-    logging.info("Clicking 'Past Opportunities' tab")
     past_opportunities_tab = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, "//div[contains(text(), 'Past Opportunities')]"))
     )
@@ -267,7 +309,7 @@ try:
         
         logging.info(f"Total Awarded opportunities on page {page_count}: {len(awarded_rows_info)}")
         
-        # Second pass: click each awarded row and download documents (skip contact info)
+        # Second pass: click each awarded row and scrape contact info + download documents
         for awarded_info in awarded_rows_info:
             idx = awarded_info["index"]
             row_data = awarded_info["data"]
@@ -284,13 +326,16 @@ try:
                 logging.info(f"Clicked on row: {row_data.get('Event ID')}")
                 time.sleep(4)
                 
-                # Directly go to Event Documents and download
+                # Scrape contact information
+                contact_info = scrape_contact_info(driver)
+                
+                # Download event documents
                 download_event_documents(driver, row_data.get('Event ID'))
                 
-                # Collect only row data (no contact info)
-                all_data.append(row_data)
+                complete_data = {**row_data, **contact_info}
+                all_data.append(complete_data)
                 
-                logging.info(f"Download attempted for Event ID: {row_data.get('Event ID')}")
+                logging.info(f"Scraped contact and downloaded documents: {contact_info.get('Name')} | {contact_info.get('Email')} | Event ID: {row_data.get('Event ID')}")
                 
                 click_back_arrow(driver)
                 time.sleep(3)
@@ -307,8 +352,7 @@ try:
                 except:
                     logging.error("Could not recover from error")
                 continue
-
-        # Go to next page
+        
         try:
             next_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((
@@ -339,9 +383,10 @@ try:
         logging.warning("No Awarded opportunities found")
         df = pd.DataFrame(columns=[
             "Event ID", "Event Name", "Published Date", "Award Date",
-            "Event Due Date", "Invitation Type", "Status"
+            "Event Due Date", "Invitation Type", "Status",
+            "Name", "Phone", "Email", "Address"
         ])
-        df.loc[0] = ["No Data", "", "", "", "", "", ""]
+        df.loc[0] = ["No Data", "", "", "", "", "", "Awarded", "", "", "", ""]
         df.to_excel(output_file, index=False)
         logging.info(f"Empty Excel file saved: {output_file}")
 
