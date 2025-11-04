@@ -89,6 +89,117 @@ def extract_field_value(row, field_label):
         return ""
 
 
+def extract_contact_info(driver):
+    """Extract contact information from the opportunity page"""
+    contact_info = {
+        'contact_name': '',
+        'contact_number': '',
+        'contact_email': '',
+        'response_due_date': ''
+    }
+    
+    try:
+        cells = driver.find_elements(By.CSS_SELECTOR, "div.esbd-result-cell")
+        
+        for cell in cells:
+            try:
+                cell_text = cell.text.strip()
+                
+                if "Contact Name:" in cell_text:
+                    p_elem = cell.find_element(By.CSS_SELECTOR, "p")
+                    contact_info['contact_name'] = p_elem.text.strip()
+                
+                elif "Contact Number:" in cell_text:
+                    p_elem = cell.find_element(By.CSS_SELECTOR, "p")
+                    contact_info['contact_number'] = p_elem.text.strip()
+                
+                elif "Contact Email:" in cell_text:
+                    p_elem = cell.find_element(By.CSS_SELECTOR, "p")
+                    contact_info['contact_email'] = p_elem.text.strip()
+                
+                elif "Response Due Date:" in cell_text:
+                    p_elem = cell.find_element(By.CSS_SELECTOR, "p")
+                    contact_info['response_due_date'] = p_elem.text.strip()
+                    
+            except:
+                continue
+                
+    except Exception as e:
+        print(f"Error extracting contact info: {str(e)[:50]}")
+    
+    return contact_info
+
+
+def extract_awards_info(driver):
+    """Extract awards information from the opportunity page"""
+    awards_data = []
+    
+    try:
+        award_rows = driver.find_elements(By.CSS_SELECTOR, "div.esbd-awards-row")
+        
+        print(f"Found {len(award_rows)} award row elements")
+        
+        for idx, row in enumerate(award_rows):
+            try:
+                award = {
+                    'contractor': '',
+                    'mailing_address': '',
+                    'value_per_contractor': '',
+                    'hub_status': '',
+                    'award_date': '',
+                    'award_status': ''
+                }
+                
+                # Extract each column from the award row
+                columns = row.find_elements(By.CSS_SELECTOR, "div.esbd-award-result-column")
+                
+                print(f"Award row {idx}: found {len(columns)} columns")
+                
+                if len(columns) >= 6:
+                    try:
+                        award['contractor'] = columns[0].find_element(By.CSS_SELECTOR, "p").text.strip()
+                    except:
+                        award['contractor'] = ''
+                    
+                    try:
+                        award['mailing_address'] = columns[1].find_element(By.CSS_SELECTOR, "p").text.strip()
+                    except:
+                        award['mailing_address'] = ''
+                    
+                    try:
+                        award['value_per_contractor'] = columns[2].find_element(By.CSS_SELECTOR, "p").text.strip()
+                    except:
+                        award['value_per_contractor'] = ''
+                    
+                    try:
+                        award['hub_status'] = columns[3].find_element(By.CSS_SELECTOR, "p").text.strip()
+                    except:
+                        award['hub_status'] = ''
+                    
+                    try:
+                        award['award_date'] = columns[4].find_element(By.CSS_SELECTOR, "p").text.strip()
+                    except:
+                        award['award_date'] = ''
+                    
+                    try:
+                        award['award_status'] = columns[5].find_element(By.CSS_SELECTOR, "p").text.strip()
+                    except:
+                        award['award_status'] = ''
+                    
+                    if award['contractor']:
+                        awards_data.append(award)
+                        print(f"Extracted award: {award['contractor']}")
+                
+            except Exception as e:
+                print(f"Error extracting award row {idx}: {str(e)[:100]}")
+                continue
+                
+    except Exception as e:
+        print(f"Error extracting awards: {str(e)[:100]}")
+    
+    return awards_data
+
+
 def worker_process(worker_id, task_queue, result_queue, download_dir):
     """Worker process that handles downloading attachments for opportunities"""
     
@@ -128,12 +239,40 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                 print(f"[Worker {worker_id}] Processing: {opp['title'][:50]}...")
                 
                 try:
+
                     driver.get(opp['href'])
                     time.sleep(3)
+                    
+                    contact_info = extract_contact_info(driver)
+                    opp.update(contact_info)
+                    print(f"[Worker {worker_id}] ✓ Extracted contact info")
+                    
+                    awards_data = extract_awards_info(driver)
+                    
+                    # If multiple awards, we'll store them as pipe-separated values
+                    if awards_data:
+                        opp['awards_count'] = len(awards_data)
+                        opp['contractor'] = ' | '.join([a['contractor'] for a in awards_data])
+                        opp['mailing_address'] = ' | '.join([a['mailing_address'] for a in awards_data])
+                        opp['value_per_contractor'] = ' | '.join([a['value_per_contractor'] for a in awards_data])
+                        opp['hub_status'] = ' | '.join([a['hub_status'] for a in awards_data])
+                        opp['award_date'] = ' | '.join([a['award_date'] for a in awards_data])
+                        opp['award_status'] = ' | '.join([a['award_status'] for a in awards_data])
+                        print(f"[Worker {worker_id}] ✓ Extracted {len(awards_data)} award(s)")
+                    else:
+                        opp['awards_count'] = 0
+                        opp['contractor'] = ''
+                        opp['mailing_address'] = ''
+                        opp['value_per_contractor'] = ''
+                        opp['hub_status'] = ''
+                        opp['award_date'] = ''
+                        opp['award_status'] = ''
+                        print(f"[Worker {worker_id}] No awards found")
                     
                     existing_files = set(os.path.join(worker_download_dir, f) 
                                        for f in os.listdir(worker_download_dir))
                     
+                    # Look for attachment links
                     download_links = driver.find_elements(
                         By.CSS_SELECTOR, "a[data-action='downloadURL']"
                     )
@@ -246,7 +385,6 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
     
     print(f"Started {num_workers} worker processes")
     
-    # Setup main driver for page navigation
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
@@ -291,6 +429,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
             time.sleep(3)
             
             opportunity_rows = driver.find_elements(By.CSS_SELECTOR, "div.esbd-result-row")
+            
             print(f"Found {len(opportunity_rows)} opportunities on page {page_num}")
             
             # Extract data from each opportunity row
@@ -327,11 +466,11 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
                     task_queue.put(opp_data)
                     
                 except Exception as e:
-                    print(f"[Main] ✗ Error extracting row data: {str(e)[:50]}")
+                    print(f"[Main]  Error extracting row data: {str(e)[:50]}")
             
+            # Increment page number
             page_num += 1
             
-            # Check if we've reached the page limit BEFORE trying to go to next page
             if max_pages and page_num > max_pages:
                 print(f"\n{'='*60}")
                 print(f"Reached page limit ({max_pages} pages)")
@@ -387,6 +526,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
                 print(f"[Main] Warning: Worker still alive, terminating...")
                 worker.terminate()
 
+        # Save all scraped data to Excel
         if all_opportunities_data:
             for opp in all_opportunities_data:
                 opp.pop('attachment_count', None)
@@ -394,7 +534,20 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
                 opp.pop('href', None)
                 opp.pop('error', None)
             
+            column_order = [
+                'title', 'solicitation_id', 'status', 
+                'due_date', 'due_time', 'response_due_date',
+                'agency', 'posting_date', 'created_date', 'last_updated',
+                'contact_name', 'contact_number', 'contact_email',
+                'awards_count', 'contractor', 'mailing_address', 
+                'value_per_contractor', 'hub_status', 'award_date', 'award_status'
+            ]
+            
             df = pd.DataFrame(all_opportunities_data)
+            existing_cols = [col for col in column_order if col in df.columns]
+            other_cols = [col for col in df.columns if col not in column_order]
+            df = df[existing_cols + other_cols]
+            
             excel_file = os.path.join(download_dir, "opportunities_data.xlsx")
             df.to_excel(excel_file, index=False)
             print(f"\n Saved data for {len(all_opportunities_data)} opportunities to: {excel_file}")

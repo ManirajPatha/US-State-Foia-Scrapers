@@ -157,6 +157,64 @@ class OhioBuysScraper:
             print(f" Error getting opportunity links: {e}")
             return []
     
+    def scrape_awarded_suppliers(self):
+        """Scrape awarded suppliers from Public Supplier Response table"""
+        try:
+            # Check if the Public Supplier Response table exists
+            try:
+                table = self.driver.find_element(
+                    By.ID,
+                    "body_x_tabc_rfp_ext_prxrfp_ext_x_grdSupplierResponse_grd"
+                )
+            except NoSuchElementException:
+                print(" No Public Supplier Response table found")
+                return []
+            
+            awarded_suppliers = []
+            
+            rows = table.find_elements(By.XPATH, ".//tbody/tr")
+            
+            for row in rows:
+                try:
+                    # Check if the Award checkbox is checked
+                    checkbox = row.find_element(
+                        By.XPATH, 
+                        ".//input[@type='checkbox' and @checked='checked']"
+                    )
+                    
+                    cells = row.find_elements(By.XPATH, ".//td[@data-iv-role='cell']")
+                    
+                    if len(cells) >= 3:
+                        supplier_name = cells[0].text.strip()
+                        item = cells[1].text.strip()
+                        submitted_price = cells[2].text.strip()
+                        
+                        awarded_suppliers.append({
+                            'Supplier Name': supplier_name,
+                            'Item': item,
+                            'Submitted Unit Price': submitted_price
+                        })
+                        
+                        print(f" Awarded: {supplier_name} - {item} (${submitted_price})")
+                
+                except NoSuchElementException:
+                    # Row is not awarded, skip it
+                    continue
+                except Exception as e:
+                    print(f" Error processing row: {e}")
+                    continue
+            
+            if awarded_suppliers:
+                print(f" Found {len(awarded_suppliers)} awarded supplier(s)")
+            else:
+                print(" No awarded suppliers found in table")
+            
+            return awarded_suppliers
+            
+        except Exception as e:
+            print(f" Error scraping awarded suppliers: {e}")
+            return []
+    
     def scrape_opportunity_details(self):
         """Scrape details from the opportunity page"""
         try:
@@ -204,7 +262,7 @@ class OhioBuysScraper:
         try:
             doc_folder = os.path.join(self.download_path, f"{solicitation_id}_docs")
             os.makedirs(doc_folder, exist_ok=True)
-            
+
             download_links = self.driver.find_elements(
                 By.XPATH,
                 "//a[contains(@class, 'iv-download-file') and contains(@href, '/bare.aspx/en/fil/download_public/')]"
@@ -226,8 +284,9 @@ class OhioBuysScraper:
                     self.driver.execute_script("arguments[0].click();", link)
                     time.sleep(3)
                     
+                    # Wait for file to complete downloading
                     self.wait_for_download_complete()
-                    
+
                     latest_file = self.get_latest_file(self.download_path)
                     if latest_file:
                         new_path = os.path.join(doc_folder, file_name)
@@ -238,17 +297,17 @@ class OhioBuysScraper:
                 except Exception as e:
                     print(f" Error downloading document {i}: {e}")
                     continue
-            
+
             if downloaded_files:
                 zip_filename = os.path.join(self.download_path, f"{solicitation_id}_documents.zip")
                 with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
                     for file in downloaded_files:
                         zipf.write(file, os.path.basename(file))
-                
+
                 import shutil
                 shutil.rmtree(doc_folder)
                 
-                print(f"   Created zip: {zip_filename}")
+                print(f" Created zip: {zip_filename}")
                 return zip_filename
             
             return None
@@ -286,7 +345,7 @@ class OhioBuysScraper:
     def return_to_list_page_with_filters(self):
         """Navigate back to the main list page and restore filters and page position"""
         try:
-            print(f"  ← Returning to list page {self.current_page + 1}...")
+            print(f" Returning to list page {self.current_page + 1}...")
             
             # Go back to the main page
             self.driver.get("https://ohiobuys.ohio.gov/page.aspx/en/rfp/request_browse_public?historyBack=1")
@@ -304,21 +363,55 @@ class OhioBuysScraper:
             return True
             
         except Exception as e:
-            print(f"✗ Error returning to list page: {e}")
+            print(f" Error returning to list page: {e}")
             return False
     
     def save_to_excel(self, filename="ohiobuys_awarded_solicitations.xlsx"):
-        """Save scraped data to Excel"""
+        """Save scraped data to Excel in a single sheet"""
         if not self.data:
             print("No data to save!")
             return
         
-        df = pd.DataFrame(self.data)
         excel_path = os.path.join(self.download_path, filename)
+
+        all_rows = []
+        
+        for record in self.data:
+            # Check if there are awarded suppliers
+            if 'Awarded Suppliers' in record and record['Awarded Suppliers']:
+                # Create one row for each awarded supplier
+                for supplier in record['Awarded Suppliers']:
+                    row = {
+                        'Solicitation ID': record.get('Solicitation ID', ''),
+                        'Solicitation Name': record.get('Solicitation Name', ''),
+                        'Begin Date': record.get('Begin Date', ''),
+                        'End Date': record.get('End Date', ''),
+                        'Solicitation Status': record.get('Solicitation Status', ''),
+                        'Supplier Name': supplier.get('Supplier Name', ''),
+                        'Item': supplier.get('Item', ''),
+                        'Submitted Unit Price': supplier.get('Submitted Unit Price', '')
+                    }
+                    all_rows.append(row)
+            else:
+                # No awarded suppliers, just add the solicitation info
+                row = {
+                    'Solicitation ID': record.get('Solicitation ID', ''),
+                    'Solicitation Name': record.get('Solicitation Name', ''),
+                    'Begin Date': record.get('Begin Date', ''),
+                    'End Date': record.get('End Date', ''),
+                    'Solicitation Status': record.get('Solicitation Status', ''),
+                    'Supplier Name': '',
+                    'Item': '',
+                    'Submitted Unit Price': ''
+                }
+                all_rows.append(row)
+
+        df = pd.DataFrame(all_rows)
         df.to_excel(excel_path, index=False)
-        print(f"\n✓ Data saved to: {excel_path}")
-        print(f"  Total records: {len(self.data)}")
-    
+        
+        print(f"\n Data saved to: {excel_path}")
+        print(f" Total records: {len(all_rows)}")
+
     def scrape_all_opportunities(self, max_pages=None):
         """Main scraping function"""
         try:
@@ -326,6 +419,7 @@ class OhioBuysScraper:
             self.driver.get("https://ohiobuys.ohio.gov/page.aspx/en/rfp/request_browse_public?historyBack=1")
             self.wait_for_page_load()
             
+            # Apply the awarded filter
             if not self.apply_awarded_filter():
                 print("Failed to apply filter. Exiting.")
                 return
@@ -354,8 +448,12 @@ class OhioBuysScraper:
                     self.driver.get(url)
                     self.wait_for_page_load()
                     
+                    # Scrape details
                     opportunity_data = self.scrape_opportunity_details()
                     if opportunity_data:
+                        awarded_suppliers = self.scrape_awarded_suppliers()
+                        opportunity_data['Awarded Suppliers'] = awarded_suppliers
+                        
                         zip_file = self.download_documents(opportunity_data['Solicitation ID'])
                         
                         self.data.append(opportunity_data)
@@ -393,6 +491,7 @@ class OhioBuysScraper:
         if self.driver:
             self.driver.quit()
             print("\n Browser closed")
+
 
 def main():
     scraper = OhioBuysScraper(download_path="downloads")
