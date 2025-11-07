@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import pandas as pd
+import json
 import time
 import re
 import os
@@ -56,7 +57,136 @@ def wait_for_downloads(download_dir, timeout=60):
             return True
     return False
 
-def scrape_detail_page(driver, wait, bid_number, temp_download_dir):
+def scrape_blanket_page(driver, wait, blanket_number):
+    """Scrape details from the blanket/PO page."""
+    blanket_data = {
+        "blanket_number": blanket_number,
+        "actual_cost": None,
+        "actual_contract_begin_date": None,
+        "actual_contract_end_date": None,
+        "organization": None,
+        "vendor_name": None,
+        "vendor_address": None,
+        "vendor_email": None,
+        "vendor_phone": None
+    }
+
+    try:
+        # Wait for page to load
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "tableText-01")))
+        time.sleep(1)
+
+        # Extract Actual Cost
+        try:
+            cost_cell = driver.find_element(By.XPATH, "//td[contains(text(),'Actual Cost:')]/following-sibling::td[1]")
+            blanket_data["actual_cost"] = safe_text(cost_cell)
+        except NoSuchElementException:
+            pass
+
+        # Extract Actual Contract Begin Date
+        try:
+            begin_date_cell = driver.find_element(By.XPATH, "//td[contains(text(),'Actual Contract Begin Date:')]/following-sibling::td[1]")
+            blanket_data["actual_contract_begin_date"] = safe_text(begin_date_cell)
+        except NoSuchElementException:
+            pass
+
+        # Extract Actual Contract End Date
+        try:
+            end_date_cell = driver.find_element(By.XPATH, "//td[contains(text(),'Actual Contract End Date:')]/following-sibling::td[1]")
+            blanket_data["actual_contract_end_date"] = safe_text(end_date_cell)
+        except NoSuchElementException:
+            pass
+
+        # Extract Organization
+        try:
+            org_cell = driver.find_element(By.XPATH, "//td[contains(text(),'Organization:')]/following-sibling::td[1]")
+            blanket_data["organization"] = safe_text(org_cell)
+        except NoSuchElementException:
+            pass
+
+        # Scroll down to see vendor details
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(1)
+
+        # Extract Vendor Information
+        try:
+            # Find the vendor cell - it has class tableText-01 and contains vendor profile link
+            vendor_cell = driver.find_element(By.XPATH, "//td[@class='tableText-01'][@valign='top'][.//a[contains(@href, 'viewExternalVendorProfile')]]")
+            
+            # Get the inner HTML to properly parse the structure
+            inner_html = vendor_cell.get_attribute('innerHTML')
+            
+            # Extract vendor name from the link
+            try:
+                vendor_link = vendor_cell.find_element(By.XPATH, ".//a[contains(@href, 'viewExternalVendorProfile')]")
+                blanket_data["vendor_name"] = safe_text(vendor_link)
+            except:
+                pass
+            
+            # Parse the HTML to extract text after <br> tags
+            # Split by <br> and clean up HTML tags
+            parts = re.split(r'<br\s*/?>', inner_html, flags=re.IGNORECASE)
+            
+            # Clean each part from HTML tags
+            cleaned_parts = []
+            for part in parts:
+                # Remove HTML tags
+                clean = re.sub(r'<[^>]+>', '', part)
+                clean = clean.strip()
+                if clean:
+                    cleaned_parts.append(clean)
+            
+            # Now extract information from cleaned parts
+            # The structure is typically:
+            # [0] = Vendor ID - Name (from link, already captured)
+            # [1+] = Contact person name, address lines, US, Email:, Phone:, FAX:
+            
+            address_lines = []
+            for part in cleaned_parts:
+                # Skip if it contains the vendor ID (already have vendor name)
+                if part.startswith('V0') or 'viewExternalVendorProfile' in part:
+                    continue
+                
+                # Extract Email
+                if 'Email:' in part:
+                    email_match = re.search(r'Email:\s*([\w\.-]+@[\w\.-]+\.\w+)', part)
+                    if email_match:
+                        blanket_data["vendor_email"] = email_match.group(1)
+                    continue
+                
+                # Extract Phone
+                if 'Phone:' in part:
+                    phone_match = re.search(r'Phone:\s*(.+)', part)
+                    if phone_match:
+                        blanket_data["vendor_phone"] = phone_match.group(1).strip()
+                    continue
+                
+                # Skip FAX line
+                if 'FAX:' in part:
+                    continue
+                
+                # Everything else is part of the address
+                address_lines.append(part)
+            
+            # Combine address lines
+            if address_lines:
+                blanket_data["vendor_address"] = ', '.join(address_lines)
+            
+            print(f"  ✅ Vendor: {blanket_data['vendor_name']}")
+            print(f"     Email: {blanket_data['vendor_email']}")
+            print(f"     Phone: {blanket_data['vendor_phone']}")
+            
+        except NoSuchElementException:
+            print(f"  ℹ️ No vendor information found")
+        except Exception as e:
+            print(f"  ⚠️ Error extracting vendor info: {e}")
+
+    except Exception as e:
+        print(f"  ❌ Error scraping blanket page: {e}")
+
+    return blanket_data
+
+def scrape_detail_page(driver, wait, bid_number, temp_download_dir, row_element):
     """Scrape details from the bid detail page."""
     record = {
         "bid_number": bid_number,
@@ -68,6 +198,16 @@ def scrape_detail_page(driver, wait, bid_number, temp_download_dir):
         "available_date": None,
         "begin_date": None,
         "end_date": None,
+        "blanket_number": None,
+        "actual_cost": None,
+        "actual_contract_begin_date": None,
+        "actual_contract_end_date": None,
+        "organization": None,
+        "vendor_name": None,
+        "vendor_address": None,
+        "vendor_email": None,
+        "vendor_phone": None,
+        "attachments": None
     }
 
     try:
@@ -128,12 +268,28 @@ def scrape_detail_page(driver, wait, bid_number, temp_download_dir):
         except NoSuchElementException:
             pass
 
-        # Download File Attachments
+        # Download File Attachments and capture filenames
         try:
             file_links = driver.find_elements(By.XPATH, "//td[contains(text(),'File Attachments:')]/following-sibling::td//a[contains(@href,'downloadFile')]")
             
             if file_links:
                 print(f"  📥 Found {len(file_links)} attachments for {bid_number}")
+                
+                # Capture attachment filenames
+                attachment_names = []
+                for link in file_links:
+                    try:
+                        filename = safe_text(link)
+                        if filename:
+                            attachment_names.append(filename)
+                    except:
+                        pass
+                
+                # Store attachment names in record
+                if attachment_names:
+                    record["attachments"] = "; ".join(attachment_names)
+                    print(f"  📎 Attachments: {record['attachments']}")
+                
                 before_files = set(os.listdir(temp_download_dir))
 
                 for link in file_links:
@@ -225,7 +381,7 @@ try:
 
     # Wait for results
     wait.until(EC.presence_of_element_located((By.ID, "bidSearchResultsForm:bidResultId_head")))
-    time.sleep(1.5)
+    time.sleep(3)
     print("✅ Search results loaded")
 
     # Capture headers for date detection
@@ -276,7 +432,18 @@ try:
 
                 print(f"\n🔄 Processing {bid_number}...")
 
-                # Click to open in new tab
+                # Check if there's a Blanket # link in this row
+                blanket_link = None
+                blanket_number = None
+                try:
+                    blanket_link = row.find_element(By.XPATH, ".//td[contains(@role,'gridcell')]//span[contains(text(),'Blanket #')]/following-sibling::a")
+                    blanket_number = safe_text(blanket_link)
+                    if blanket_number:
+                        print(f"  🔗 Found Blanket #: {blanket_number}")
+                except NoSuchElementException:
+                    pass
+
+                # Click to open bid detail in new tab
                 bid_link.click()
                 time.sleep(2)
 
@@ -287,13 +454,53 @@ try:
                         break
 
                 # Scrape detail page
-                record = scrape_detail_page(driver, wait, bid_number, temp_download_dir)
-                all_data.append(record)
+                record = scrape_detail_page(driver, wait, bid_number, temp_download_dir, row)
 
-                # Close tab and switch back to main window
+                # Close bid detail tab and switch back to main window
                 driver.close()
                 driver.switch_to.window(main_window)
                 time.sleep(1)
+
+                # If there's a blanket link, open it and scrape
+                if blanket_link and blanket_number:
+                    try:
+                        # Re-find the row and blanket link (in case of stale element)
+                        rows = driver.find_elements(By.XPATH, "//tbody[@id='bidSearchResultsForm:bidResultId_data']/tr")
+                        for r in rows:
+                            try:
+                                bid_link_check = r.find_element(By.XPATH, ".//td[@role='gridcell']//a")
+                                if safe_text(bid_link_check) == bid_number:
+                                    blanket_link = r.find_element(By.XPATH, ".//td[contains(@role,'gridcell')]//span[contains(text(),'Blanket #')]/following-sibling::a")
+                                    break
+                            except:
+                                continue
+                        
+                        print(f"  🔗 Opening Blanket page: {blanket_number}")
+                        blanket_link.click()
+                        time.sleep(2)
+
+                        # Switch to blanket tab
+                        for handle in driver.window_handles:
+                            if handle != main_window:
+                                driver.switch_to.window(handle)
+                                break
+
+                        # Scrape blanket page
+                        blanket_data = scrape_blanket_page(driver, wait, blanket_number)
+                        
+                        # Merge blanket data into record
+                        record.update(blanket_data)
+
+                        # Close blanket tab and switch back
+                        driver.close()
+                        driver.switch_to.window(main_window)
+                        time.sleep(1)
+
+                    except Exception as e:
+                        print(f"  ⚠️ Error processing blanket link: {e}")
+                        driver.switch_to.window(main_window)
+
+                all_data.append(record)
 
                 # Re-fetch rows to avoid stale element
                 rows = driver.find_elements(By.XPATH, "//tbody[@id='bidSearchResultsForm:bidResultId_data']/tr")
@@ -320,13 +527,22 @@ try:
             print("\n✅ No more pages")
             break
 
+    # Generate filenames with timestamp
+    y_sorted = sorted(list(YEARS), reverse=True)
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M')
+    base_filename = f"illinois_bid_details_{y_sorted[0]}_{y_sorted[1]}_{timestamp}"
+    
     # Save to Excel
     df = pd.DataFrame(all_data)
+    excel_filename = f"{base_filename}.xlsx"
+    df.to_excel(excel_filename, index=False)
+    print(f"\n✅ Scraped {len(df)} records and saved to {excel_filename}")
     
-    y_sorted = sorted(list(YEARS), reverse=True)
-    out_name = f"illinois_bid_details_{y_sorted[0]}_{y_sorted[1]}_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
-    df.to_excel(out_name, index=False)
-    print(f"\n✅ Scraped {len(df)} records and saved to {out_name}")
+    # Save to JSON
+    json_filename = f"{base_filename}.json"
+    with open(json_filename, 'w', encoding='utf-8') as f:
+        json.dump(all_data, f, indent=2, ensure_ascii=False)
+    print(f"✅ JSON file saved to {json_filename}")
 
 finally:
     driver.quit()
