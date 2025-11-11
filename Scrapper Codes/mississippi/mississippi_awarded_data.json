@@ -1,0 +1,140 @@
+[
+    {
+        "Smart Number": "1130-21-R-NBID-00019",
+        "Advertised Date": "03/01/2021 12:00 AM",
+        "RFx #": "3130001370",
+        "Submission Date": "04/15/2021 5:00 PM",
+        "RFx Status": "Awarded",
+        "Major Procurement Category": "COMMODITIES",
+        "Sub Procurement Category": "SUPPLIES - NON-TECHNOLOGY",
+        "RFx Type": "Negotiated Bid",
+        "Agency": "",
+        "RFx Description": "Cafeteria, Dormitory, Library Furniture, Library Shelving, Lounge, Modular Office, School Furniture, Seating, Wood Desks and Wood Credenzas Negotiated Contract Bid",
+        "Contact Info": {
+            "Name": "Easter Haimur",
+            "Email": "EASTER.HAIMUR@DFA.MS.GOV",
+            "Phone": "",
+            "Fax": ""
+        },
+        "Awarded Vendors": [
+            {
+                "Vendor Name": "NORSTAR OFFICE PRODUCTS",
+                "Vendor Number": "3100031269",
+                "Award Date": "4/21/2021",
+                "Award Amount": "$0.00",
+                "Funding Source": ""
+            }
+        ],
+        "Attachments": [
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/CATALOG%20AND%20CATEGORY%20SPREADSHEET.XLSX?PHIOGET&KPID=02000600000A1EEB9DA27C8AC118DB0F&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/DEALERS%20LIST%20EXCEL%20SPREADSHEET.XLSX?PHIOGET&KPID=02000600000A1EEB9DA27B5B1BEB3B0C&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/FURNITURE%20PROPOSAL%20FORMAT%20AND%20GUIDELINES%5F2021.PDF?PHIOGET&KPID=02000600000A1EEB9DA2751CC0723B08&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/FURNITURE%20QUESTIONNAIRE.PDF?PHIOGET&KPID=02000600000A1EEB9DA27946E2223B0C&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/GENERAL%20CONDITIONS%20NEGOTIATED%5F122017.PDF?PHIOGET&KPID=02000600000A1EEB9DA27F14D93A7B0F&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/PURCHASE%20SUMMARY%20EXCEL%20SPREADSHEET.XLSX?PHIOGET&KPID=02000600000A1EEB9DA27AB345DD3B0C&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/SAMPLEFURNITURECONTRACT%5F2021.PDF?PHIOGET&KPID=02000600000A1EEB9DA277778FAB5B09&KPCLASS=BBP_P_DOC&SAP-CLIENT=100"
+        ],
+        "Downloaded Files": [
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/CATALOG%20AND%20CATEGORY%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/DEALERS%20LIST%20EXCEL%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/FURNITURE%20PROPOSAL%20FORMAT%20AND%20GUIDELINES%5F2021.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/FURNITURE%20QUESTIONNAIRE.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/GENERAL%20CONDITIONS%20NEGOTIATED%5F122017.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/PURCHASE%20SUMMARY%20EXCEL%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_files/SAMPLEFURNITURECONTRACT%5F2021.PDF"
+        ],
+        "Zip File": "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00019_attachments.zip"
+    },
+    {
+        "Smart Number": "1130-21-R-NBID-00002-V01",
+        "Advertised Date": "10/01/2020 12:00 AM",
+        "RFx #": "3130001280",
+        "Submission Date": "11/16/2020 5:00 PM",
+        "RFx Status": "Awarded",
+        "Major Procurement Category": "COMMODITIES",
+        "Sub Procurement Category": "SUPPLIES - NON-TECHNOLOGY",
+        "RFx Type": "Negotiated Bid",
+        "Agency": "",
+        "RFx Description": "Janitorial Products Proposal Request.  \n\nProposal Must be Submitted By: November 16, 2020 before 5:00 pm CST\n\nJanitorial Products Negotiated Contract Bid",
+        "Contact Info": {
+            "Name": "Easter Haimur",
+            "Email": "EASTER.HAIMUR@DFA.MS.GOV",
+            "Phone": "",
+            "Fax": ""
+        },
+        "Awarded Vendors": [
+            {
+                "Vendor Name": "LIQUID SOLUTIONS LLC",
+                "Vendor Number": "3100034030",
+                "Award Date": "11/17/2020",
+                "Award Amount": "$99,999,999.00",
+                "Funding Source": ""
+            }
+        ],
+        "Attachments": [
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/DEALERS%20LIST%20EXCEL%20SPREADSHEET.XLSX?PHIOGET&KPID=0200060000121EDABFB429EE60D3DBC2&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/GENERAL%20CONDITIONS%20NEGOTIATED%5F122017.PDF?PHIOGET&KPID=0200060000121EDABFB422849E541BBC&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/INSTRUCTIONS%20FOR%20COMPLETING%20THE%20PRICE%20LIST%20SPREADSHEET.PDF?PHIOGET&KPID=0200060000121EDABFB424BDD7A45BBF&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/JANITORIAL%20PFG%5F2021.PDF?PHIOGET&KPID=0200060000121EDABFB41E370ED9FBBA&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/JANITORIAL%20SUPPLIES%20PRICE%20LIST.XLSX?PHIOGET&KPID=0200060000121EDABFB425DB60BB5BBF&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/PURCHASE%20SUMMARY%20EXCEL%20SPREADSHEET.XLSX?PHIOGET&KPID=0200060000121EDABFB4275C798CBBBF&KPCLASS=BBP_P_DOC&SAP-CLIENT=100",
+            "https://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER/SAMPLECONTRACT%5F2021.PDF?PHIOGET&KPID=0200060000121EDABFB42C20EEE15BC2&KPCLASS=BBP_P_DOC&SAP-CLIENT=100"
+        ],
+        "Downloaded Files": [
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/DEALERS%20LIST%20EXCEL%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/GENERAL%20CONDITIONS%20NEGOTIATED%5F122017.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/INSTRUCTIONS%20FOR%20COMPLETING%20THE%20PRICE%20LIST%20SPREADSHEET.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/JANITORIAL%20PFG%5F2021.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/JANITORIAL%20SUPPLIES%20PRICE%20LIST.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/PURCHASE%20SUMMARY%20EXCEL%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_files/SAMPLECONTRACT%5F2021.PDF"
+        ],
+        "Zip File": "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-21-R-NBID-00002-V01_attachments.zip"
+    },
+    {
+        "Smart Number": "1130-16-R-NBID-00017-V02",
+        "Advertised Date": "03/01/2016 1:00 AM",
+        "RFx #": "3130000312",
+        "Submission Date": "04/15/2016 5:00 PM",
+        "RFx Status": "Awarded",
+        "Major Procurement Category": "COMMODITIES",
+        "Sub Procurement Category": "EQUIPMENT - NON-TECHNOLOGY",
+        "RFx Type": "Negotiated Bid",
+        "Agency": "",
+        "RFx Description": "Mailing Equipment Negotiated Contract Bid",
+        "Contact Info": {
+            "Name": "Erika Weakley",
+            "Email": "erika.weakley@dfa.ms.gov",
+            "Phone": "6013593451",
+            "Fax": ""
+        },
+        "Awarded Vendors": [
+            {
+                "Vendor Name": "PITNEY BOWES GLOBAL FINANCIAL",
+                "Vendor Number": "3100001950",
+                "Award Date": "5/13/2016",
+                "Award Amount": "$0.00",
+                "Funding Source": ""
+            }
+        ],
+        "Attachments": [
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=0200060000111EE5B6B689E38A2B8A9A&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/DEALERS%20LIST%20EXCEL%20SPREADSHEET.XLSX",
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=0200060000111EE5B6B68629441F4A98&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/GENERAL%20CONDITIONS%20NEGOTIATED%5F051315.PDF",
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=0200060000111EE5B6B6890BDEA6CA99&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/GENERICRENTALAGREEMENT%20%2D%20JULY%202015.PDF",
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=0200060000111EE5BDD1DC2DAB005F1F&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/MAILING%20EQUIPMENT%20PRICE%20LIST%20SPREADSHEET.XLSX",
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=02000600000B1ED5B6CA89D964EDC4CC&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/MAILINGEQUIPMENTPFG%5F16.PDF",
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=0200060000111EE5B6B68AC301158A9A&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/PURCHASE%20SUMMARY%20EXCEL%20SPREADSHEET.XLSX",
+            "HTTPS://SRM.MAGIC.MS.GOV:443/SAP/EBP/DOCSERVER?PHIOGET&KPID=0200060000111EE5B6B687A7C24D0A98&KPCLASS=BBP_P_DOC&SAP-CLIENT=100/MAILING%20EQUIPMENT%5FSAMPLE%20CONTRACT.PDF"
+        ],
+        "Downloaded Files": [
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/DEALERS%20LIST%20EXCEL%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/GENERAL%20CONDITIONS%20NEGOTIATED%5F051315.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/GENERICRENTALAGREEMENT%20%2D%20JULY%202015.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/MAILING%20EQUIPMENT%20PRICE%20LIST%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/MAILINGEQUIPMENTPFG%5F16.PDF",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/PURCHASE%20SUMMARY%20EXCEL%20SPREADSHEET.XLSX",
+            "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_files/MAILING%20EQUIPMENT%5FSAMPLE%20CONTRACT.PDF"
+        ],
+        "Zip File": "/home/developer/Desktop/US-State-Foia-Scrapers-2/Scrapper Codes/mississippi/mississippi_awarded_data/run_2025-11-07_20-47-31/1130-16-R-NBID-00017-V02_attachments.zip"
+    }
+]

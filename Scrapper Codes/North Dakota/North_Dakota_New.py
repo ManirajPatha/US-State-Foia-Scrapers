@@ -51,7 +51,7 @@ prefs = {
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "safebrowsing.enabled": True,
-    "profile.default_content_setting_values.automatic_downloads": 1
+    "profile.default_content_setting_values.automatic_downloads": 1,
 }
 opts.add_experimental_option("prefs", prefs)
 driver = webdriver.Chrome(options=opts)
@@ -68,9 +68,10 @@ def scrape_north_dakota():
         driver.get(HOME)
         js_click(wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Search All Solicitations"))))
         
+        # Calculate dates: Begin = 1 year before yesterday, End = yesterday
         yesterday = datetime.now() - timedelta(days=1)
         begin_date = yesterday - relativedelta(years=1)
-
+        
         driver.find_element(By.ID, "x40").clear()
         driver.find_element(By.ID, "x40").send_keys(begin_date.strftime("%m/%d/%Y"))
         
@@ -140,45 +141,72 @@ def scrape_north_dakota():
                     v = tr.find_element(By.TAG_NAME, "td").text.strip()
                     fld[k] = v
 
-                # Create folder for this opportunity's attachments
+                award_bidders = []
+                award_amounts = []
+                try:
+                    award_table = driver.find_elements(
+                        By.XPATH, "//h3[@class='view' and contains(text(), 'Award Notice')]/following-sibling::table[1]"
+                    )
+                    if award_table:
+                        award_rows = award_table[0].find_elements(By.XPATH, ".//tbody/tr[td]")
+                        for award_row in award_rows:
+                            award_tds = award_row.find_elements(By.TAG_NAME, "td")
+                            if len(award_tds) >= 2:
+                                bidder = award_tds[0].text.strip()
+                                amount = award_tds[1].text.strip()
+                                award_bidders.append(bidder)
+                                award_amounts.append(amount)
+                        print(f"Found {len(award_bidders)} award(s)")
+                except Exception as e:
+                    print(f"Could not scrape award info: {e}")
+
+                agency_info = {}
+                try:
+                    agency_table = driver.find_elements(
+                        By.XPATH, "//th[normalize-space()='Procurement Officer:']/ancestor::table[1]"
+                    )
+                    if agency_table:
+                        current_key = None
+                        for tr in agency_table[0].find_elements(By.XPATH, ".//tr"):
+                            ths = tr.find_elements(By.TAG_NAME, "th")
+                            tds = tr.find_elements(By.TAG_NAME, "td")
+                            if ths and tds:
+                                key_text = ths[0].text.strip().rstrip(":").strip()
+                                if key_text:
+                                    current_key = key_text
+                                    value = tds[0].text.strip()
+                                    agency_info[current_key] = value
+                                elif current_key:
+                                    value = tds[0].text.strip()
+                                    if value:
+                                        agency_info[current_key] += " " + value
+                        print(f"Scraped agency information: {agency_info}")
+                except Exception as e:
+                    print(f"Could not scrape agency info: {e}")
+
                 opp_folder = os.path.join(ATTACHMENTS_DIR, sol_number.replace("/", "_"))
                 os.makedirs(opp_folder, exist_ok=True)
 
+                # Attachments
                 attachment_count = 0
-                attachments_table = driver.find_elements(
-                    By.XPATH, "//table[@summary='Attachments']"
-                )
-                
-                if attachments_table:
-                    print(f"Found Attachments section")
-                    rows_in_table = attachments_table[0].find_elements(By.XPATH, ".//tbody/tr[td]")
-                    print(f"Number of attachments: {len(rows_in_table)}")
-                    
-                    for row in rows_in_table:
-                        t = row.find_elements(By.TAG_NAME, "td")
-                        if len(t) < 2:
-                            continue
-                        
-                        title = t[0].text.strip()
-                        
-                        a = t[-1].find_elements(By.TAG_NAME, "a")
-                        if not a:
-                            continue
-                        
-                        try:
-                            print(f"    ⬇️ Downloading: {title}")
-                            js_click(a[0])
-                            time.sleep(3)
-                            attachment_count += 1
-                        except Exception as e:
-                            print(f"Warning: Could not download {title}: {e}")
-                else:
-                    print(f"No attachments section found")
+                for row in driver.find_elements(
+                    By.XPATH, "//th[normalize-space()='Title']/ancestor::table[1]//tbody/tr[td]"):
+                    t = row.find_elements(By.TAG_NAME, "td")
+                    a = t[-1].find_elements(By.TAG_NAME, "a")
+                    if not a:
+                        continue
+                    filename = t[0].text.strip()
+                    try:
+                        js_click(a[0])
+                        time.sleep(3)
+                        attachment_count += 1
+                    except Exception as e:
+                        print(f"    Warning: Could not download {filename}: {e}")
 
                 time.sleep(2)
                 for file in os.listdir(ATTACHMENTS_DIR):
                     file_path = os.path.join(ATTACHMENTS_DIR, file)
-                    if os.path.isfile(file_path) and file != sol_number.replace("/", "_"):
+                    if os.path.isfile(file_path):
                         shutil.move(file_path, os.path.join(opp_folder, file))
 
                 if attachment_count > 0:
@@ -207,6 +235,16 @@ def scrape_north_dakota():
                     "Title": fld.get("Title", ""),
                     "Description": fld.get("Description", ""),
                     "Type": fld.get("Type", ""),
+                    # Award Information
+                    "Awarded_Bidder": " | ".join(award_bidders) if award_bidders else "",
+                    "Award_Amount": " | ".join(award_amounts) if award_amounts else "",
+                    # Agency Information
+                    "Procurement_Officer": agency_info.get("Procurement Officer", ""),
+                    "Address": agency_info.get("Address", ""),
+                    "Telephone": agency_info.get("Telephone", ""),
+                    "Fax": agency_info.get("Fax", ""),
+                    "TTY": agency_info.get("TTY", ""),
+                    "Email": agency_info.get("Email", ""),
                 }
                 
                 for k, v in fld.items():
