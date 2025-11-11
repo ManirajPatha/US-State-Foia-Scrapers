@@ -2,215 +2,335 @@
 # -*- coding: utf-8 -*-
 
 """
-Indiana Contracts Scraper (DB-free, Excel output) — strict custom date range
+Indiana IDOA — Award Recommendations (Selenium)
+Downloads all Award Date ZIP attachments across all pages
+and writes a JSON of the two table columns + download info.
 
-• Use --start-date and/or --end-date. Range is inclusive.
-• --filter-on {start,end,either} controls which field the range applies to.
-• No row padding: only matching rows are written. If your range has 10 rows, Excel has 10 rows.
-• --max-rows is optional. If omitted (or 0), no cap is applied.
-
-Examples:
-  python indiana.py --start-date 2022-01-01 --end-date 2022-12-31 --filter-on either
-  python indiana.py --start-date 2024-01-01 --filter-on start --max-rows 100 --out "indiana_2024.xlsx"
+Usage:
+  pip install selenium webdriver-manager requests
+  python indiana_attachments.py \
+    --out-json indiana_awards.json \
+    --out-dir "Indiana Attachments" \
+    [--headless]
 """
 
 import argparse
-import logging
+import json
+import os
 import time
+import re
+import atexit
+import signal
 from datetime import datetime
-from typing import Dict, List, Optional, Union
+from pathlib import Path
+from typing import List, Dict, Optional
+from urllib.parse import urlparse, unquote
 
 import requests
-import pandas as pd
-from dateutil import parser as dateparser  # usually present with pandas
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import (
+    TimeoutException,
+    StaleElementReferenceException,
+    NoSuchElementException,
+    WebDriverException,
+    ElementClickInterceptedException,
+)
 
-API_URL = "https://secure.in.gov/apps/idoa/contractsearch/api/contracts/search"
-REFERER_URL = "https://secure.in.gov/apps/idoa/contractsearch/"
-HEADERS = {
-    "accept": "application/json, text/plain, */*",
-    "content-type": "application/json",
-    "origin": "https://secure.in.gov",
-    "referer": REFERER_URL,
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-}
+from webdriver_manager.chrome import ChromeDriverManager
 
-def _parse_date_time(s: Optional[str]) -> Dict[str, Optional[Union[str, datetime]]]:
-    res: Dict[str, Optional[Union[str, datetime]]] = {"date": None, "time": None, "dt": None}
-    if not s or s in {"-", "", "N/A"}:
-        return res
+BASE_URL = "https://www.in.gov/idoa/procurement/award-recommendations/"
+
+# ==================== NEW: global state for checkpoint ====================
+ALL_RECORDS: List[Dict] = []
+OUT_JSON_PATH: Optional[str] = None
+
+def save_json_progress():
+    """Write whatever we have so far into the JSON file (atomic-ish)."""
+    global OUT_JSON_PATH, ALL_RECORDS
+    if not OUT_JSON_PATH:
+        return
     try:
-        dt = dateparser.isoparse(s)
-        res["date"] = dt.date().isoformat()
-        res["time"] = dt.time().replace(microsecond=0).isoformat()
-        res["dt"] = dt
-    except Exception as e:
-        logging.warning(f"Failed to parse date/time '{s}': {e}")
-    return res
+        tmp = OUT_JSON_PATH + ".partial"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(ALL_RECORDS, f, ensure_ascii=False, indent=2)
+        # Replace target to ensure we always have the newest snapshot
+        os.replace(tmp, OUT_JSON_PATH)
+    except Exception:
+        # We never raise here—this is a best-effort checkpoint.
+        pass
 
-def _normalize_start(s: Optional[str]) -> Optional[datetime]:
-    if not s:
-        return None
-    dt = dateparser.isoparse(s)
-    return datetime(dt.year, dt.month, dt.day, 0, 0, 0)
+def _graceful_shutdown_handler(signum, frame):
+    # Make sure we persist whatever we have when user stops/close
+    save_json_progress()
+    # Exit immediately after saving
+    raise SystemExit(0)
 
-def _normalize_end(s: Optional[str]) -> Optional[datetime]:
-    if not s:
-        return None
-    dt = dateparser.isoparse(s)
-    return datetime(dt.year, dt.month, dt.day, 23, 59, 59)
+# Register autosave on normal interpreter exit and on common stop signals
+atexit.register(save_json_progress)
+signal.signal(signal.SIGINT, _graceful_shutdown_handler)
+signal.signal(signal.SIGTERM, _graceful_shutdown_handler)
+# ==========================================================================
 
-def _in_range(dt: Optional[datetime], start: Optional[datetime], end: Optional[datetime]) -> bool:
-    if dt is None:
-        return False
-    if start and dt < start:
-        return False
-    if end and dt > end:
-        return False
-    return True
+def mk_driver(download_dir: str, headless: bool = False) -> webdriver.Chrome:
+    opts = Options()
+    if headless:
+        opts.add_argument("--headless=new")
+    opts.add_argument("--start-maximized")
+    opts.add_argument("--disable-gpu")
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    prefs = {
+        "download.default_directory": os.path.abspath(download_dir),
+        "download.prompt_for_download": False,
+        "download.directory_upgrade": True,
+        "safebrowsing.enabled": True,
+        "profile.default_content_settings.popups": 0,
+    }
+    opts.add_experimental_option("prefs", prefs)
+    service = Service(ChromeDriverManager().install())
+    return webdriver.Chrome(service=service, options=opts)
 
-def scrape_indiana(
-    api_start: datetime,
-    page_size: int = 100,
-    pause_sec: float = 0.75,
-    max_rows: int = 0,  # 0 = unlimited
-    range_start: Optional[datetime] = None,
-    range_end: Optional[datetime] = None,
-    filter_on: str = "start",  # 'start' | 'end' | 'either'
-) -> List[Dict]:
-    rows: List[Dict] = []
-    kept = 0
-    page_number = 1
-
-    logging.info(
-        f"Starting scrape (api_start={api_start.isoformat()}, page_size={page_size}, "
-        f"max_rows={max_rows or 'unlimited'}, filter_on={filter_on}, "
-        f"range_start={range_start}, range_end={range_end})"
+def wait_table(driver, timeout=20):
+    return WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located(
+            (By.XPATH,
+             "//table[.//th[normalize-space()='Award Date'] and .//th[normalize-space()='Event Information']]")
+        )
     )
 
-    while True:
-        payload = {
-            "startDate": api_start.strftime("%Y-%m-%dT%H:%M:%S.000"),
-            "pageNumber": page_number,
-            "pageSize": page_size,
-        }
-        # If the backend honors endDate, include it; harmless if ignored.
-        if range_end:
-            payload["endDate"] = range_end.strftime("%Y-%m-%dT%H:%M:%S.000")
-
-        logging.info(f"Fetching page {page_number}...")
-        try:
-            resp = requests.post(API_URL, headers=HEADERS, json=payload, timeout=30)
-            resp.raise_for_status()
-        except requests.RequestException as e:
-            logging.error(f"Request failed on page {page_number}: {e}")
-            break
-
-        try:
-            data = resp.json()
-        except ValueError:
-            logging.error("Response was not valid JSON. Stopping.")
-            break
-
-        items = data.get("results", [])
-        if not items:
-            logging.info("No more results. Done.")
-            break
-
-        for c in items:
-            s = _parse_date_time(c.get("startDate"))
-            e = _parse_date_time(c.get("endDate"))
-
-            # Strict client-side range check
-            if filter_on == "start":
-                keep = _in_range(s["dt"], range_start, range_end)
-            elif filter_on == "end":
-                keep = _in_range(e["dt"], range_start, range_end)
-            else:  # either
-                keep = _in_range(s["dt"], range_start, range_end) or _in_range(e["dt"], range_start, range_end)
-
-            if not keep:
-                continue
-
-            rows.append({
-                "contract_id": c.get("id"),
-                "title": f"Indiana State Contract - {c.get('id')}" if c.get("id") else None,
-                "vendor_name": c.get("vendorName"),
-                "agency_name": c.get("agencyName"),
-                "place_of_performance_zip": c.get("zipCode"),
-                "start_date": s.get("date"),
-                "start_time": s.get("time"),
-                "end_date": e.get("date"),
-                "end_time": e.get("time"),
-                "pdf_url": c.get("pdfUrl"),
-                "source_page_url": REFERER_URL,
-            })
-            kept += 1
-
-            if max_rows and kept >= max_rows:
-                logging.info(f"Reached max_rows={max_rows}. Stopping.")
-                return rows
-
-        if len(items) < page_size:
-            logging.info("Reached the last page.")
-            break
-
-        page_number += 1
-        time.sleep(pause_sec)
-
-    logging.info(f"Finished. Total rows kept (after filter): {kept}")
-    return rows
-
-def _write_excel(df: pd.DataFrame, out_path: str) -> None:
+def current_page_id(driver) -> str:
     try:
-        with pd.ExcelWriter(out_path, engine="openpyxl") as writer:
-            df.to_excel(writer, index=False, sheet_name="contracts")
-            ws = writer.sheets["contracts"]
-            widths = {1:18, 2:34, 3:28, 4:28, 5:18, 6:14, 7:12, 8:14, 9:12, 10:60, 11:50}
-            for col_idx, width in widths.items():
-                col_letter = ws.cell(row=1, column=col_idx).column_letter
-                ws.column_dimensions[col_letter].width = width
-    except ModuleNotFoundError:
-        # Basic write without formatting
-        df.to_excel(out_path, index=False)
+        tbl = driver.find_element(
+            By.XPATH,
+            "//table[.//th[normalize-space()='Award Date'] and .//th[normalize-space()='Event Information']]"
+        )
+        first_text = tbl.text[:200]
+        return str(hash(first_text))
+    except Exception:
+        return str(time.time())
+
+def parse_filename_from_headers(resp: requests.Response, default: str) -> str:
+    cd = resp.headers.get("Content-Disposition") or resp.headers.get("content-disposition")
+    if cd:
+        m = re.search(r'filename\*?=(?:UTF-8\'\')?"?([^";]+)"?', cd)
+        if m:
+            return unquote(m.group(1)).strip()
+    path_name = os.path.basename(urlparse(resp.url).path)
+    if path_name:
+        return unquote(path_name)
+    return default
+
+def selenium_cookies_to_requests(driver, domain: Optional[str] = None) -> requests.Session:
+    s = requests.Session()
+    for c in driver.get_cookies():
+        s.cookies.set(c["name"], c["value"], domain=c.get("domain"), path=c.get("path","/"))
+    s.headers.update({
+        "User-Agent": "Mozilla/5.0",
+        "Referer": BASE_URL,
+        "Accept": "*/*",
+    })
+    return s
+
+def safe_click(driver, element):
+    try:
+        driver.execute_script("arguments[0].scrollIntoView({block:'center'});", element)
+        time.sleep(0.1)
+        element.click()
+        return True
+    except (ElementClickInterceptedException, WebDriverException):
+        try:
+            ActionChains(driver).move_to_element(element).click().perform()
+            return True
+        except Exception:
+            return False
+
+def collect_rows_on_page(driver) -> List[Dict]:
+    table = wait_table(driver)
+    rows_out: List[Dict] = []
+    trs = table.find_elements(By.XPATH, ".//tbody/tr[td]")
+    for tr in trs:
+        try:
+            date_cell = tr.find_element(By.XPATH, "./td[1]")
+            try:
+                date_a = date_cell.find_element(By.XPATH, ".//a[@href]")
+            except NoSuchElementException:
+                date_a = None
+            award_text = date_cell.text.strip()
+            award_href = date_a.get_attribute("href") if date_a else None
+
+            info_cell = tr.find_element(By.XPATH, "./td[2]")
+            try:
+                ev_a = info_cell.find_element(By.XPATH, ".//a[@href]")
+                event_title = ev_a.text.strip()
+                event_url = ev_a.get_attribute("href")
+            except NoSuchElementException:
+                event_title = info_cell.text.strip()
+                event_url = None
+
+            rows_out.append({
+                "row_el": tr,
+                "award_date": award_text,
+                "event_title": event_title,
+                "event_url": event_url,
+                "award_zip_url": award_href,
+            })
+        except StaleElementReferenceException:
+            continue
+    return rows_out
+
+def download_zip_for_row(driver, row: Dict, out_dir: str) -> Dict:
+    award_url = row.get("award_zip_url")
+    result = {
+        "download_ok": False,
+        "zip_path": None,
+        "zip_url": award_url,
+        "error": None,
+    }
+    if award_url:
+        try:
+            sess = selenium_cookies_to_requests(driver, domain=urlparse(award_url).hostname)
+            resp = sess.get(award_url, stream=True, timeout=60)
+            resp.raise_for_status()
+            guessed = parse_filename_from_headers(resp, default=f"award_{int(time.time()*1000)}.zip")
+            if not guessed.lower().endswith(".zip"):
+                ct = resp.headers.get("Content-Type","").lower()
+                if "zip" in ct or guessed.find(".") == -1:
+                    guessed = guessed.rsplit(".",1)[0] + ".zip"
+            out_path = os.path.join(out_dir, guessed)
+            base, ext = os.path.splitext(out_path)
+            k = 1
+            while os.path.exists(out_path):
+                out_path = f"{base} ({k}){ext}"
+                k += 1
+            with open(out_path, "wb") as f:
+                for chunk in resp.iter_content(chunk_size=65536):
+                    if chunk:
+                        f.write(chunk)
+            result["download_ok"] = True
+            result["zip_path"] = out_path
+            return result
+        except Exception as e:
+            result["error"] = f"requests-fallback: {e}"
+
+    try:
+        tr = row["row_el"]
+        date_link = tr.find_element(By.XPATH, "./td[1]//a[@href]")
+        ok = safe_click(driver, date_link)
+        if ok:
+            time.sleep(2.0)
+            result["download_ok"] = True
+        else:
+            result["error"] = "could not click award date link"
+    except Exception as e:
+        result["error"] = f"selenium-click: {e}"
+
+    return result
+
+def goto_next_page(driver, timeout=15) -> bool:
+    sig_before = current_page_id(driver)
+    try:
+        next_link = driver.find_element(By.XPATH, "//a[normalize-space()='Next' and @href]")
+    except NoSuchElementException:
+        return False
+    driver.execute_script("arguments[0].scrollIntoView({block:'center'});", next_link)
+    time.sleep(0.1)
+    if not safe_click(driver, next_link):
+        return False
+    try:
+        WebDriverWait(driver, timeout).until(lambda d: current_page_id(d) != sig_before)
+        wait_table(driver, timeout=timeout)
+        return True
+    except TimeoutException:
+        return False
+
+def scrape_all(args):
+    global OUT_JSON_PATH, ALL_RECORDS
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    OUT_JSON_PATH = args.out_json  # NEW: set for checkpoint writer
+
+    driver = mk_driver(str(out_dir), headless=args.headless)
+    try:
+        driver.get(args.base_url)
+        wait_table(driver)
+
+        seen_page_signatures = set()
+        page_index = 1
+
+        while True:
+            sig = current_page_id(driver)
+            if sig in seen_page_signatures:
+                break
+            seen_page_signatures.add(sig)
+
+            rows = collect_rows_on_page(driver)
+            for row in rows:
+                # Try/catch each row so a single failure still saves progress
+                try:
+                    dl = download_zip_for_row(driver, row, str(out_dir))
+                except WebDriverException as e:
+                    # Browser closed or crashed mid-row
+                    dl = {"download_ok": False, "zip_path": None, "zip_url": row.get("award_zip_url"), "error": f"webdriver: {e}"}
+
+                rec = {
+                    "page_index": page_index,
+                    "award_date": row.get("award_date"),
+                    "event_title": row.get("event_title"),
+                    "event_url": row.get("event_url"),
+                    "award_zip_url": dl.get("zip_url"),
+                    "zip_path": dl.get("zip_path"),
+                    "download_ok": dl.get("download_ok"),
+                    "error": dl.get("error"),
+                    "scraped_at": datetime.now().isoformat(),
+                }
+                ALL_RECORDS.append(rec)
+
+                # ==================== NEW: checkpoint after every row ====================
+                save_json_progress()
+                # =======================================================================
+
+            # Try to go to the next page. If not possible, break.
+            try:
+                advanced = goto_next_page(driver)
+            except WebDriverException:
+                # If window got closed, we still have JSON saved so just stop.
+                break
+            if not advanced:
+                break
+            page_index += 1
+
+    except WebDriverException:
+        # If the window was closed abruptly, we just drop out—progress is saved.
+        pass
+    finally:
+        try:
+            driver.quit()
+        except Exception:
+            pass
+
+    # Final write (also covered by atexit, but do it explicitly)
+    save_json_progress()
+    print(f"[OK] JSON written (progress-safe): {OUT_JSON_PATH}")
+    print(f"[OK] ZIPs folder : {Path(args.out_dir).resolve()}")
 
 def main():
-    p = argparse.ArgumentParser(description="Scrape Indiana contracts to Excel (strict custom date range).")
-    p.add_argument("--start-date", help="Start date (2022-01-01 or ISO). If omitted, 2010-01-01 is used.")
-    p.add_argument("--end-date",   help="End date (2022-12-31 or ISO). Inclusive end of day. Optional.")
-    p.add_argument("--filter-on", choices=["start","end","either"], default="start",
-                   help="Which field to filter on (default: start).")
-    p.add_argument("--page-size", type=int, default=10, help="Contracts per page (default: 100).")
-    p.add_argument("--max-rows", type=int, default=10, help="Cap rows; 0 means unlimited (default).")
-    p.add_argument("--pause", type=float, default=0.75, help="Pause between pages (seconds).")
-    p.add_argument("--out", help="Output Excel filename.")
-    args = p.parse_args()
+    ap = argparse.ArgumentParser(description="Indiana IDOA Award Recommendations — download all Award Date ZIPs + JSON.")
+    ap.add_argument("--base-url", default=BASE_URL, help="Starting URL (default: Indiana Award Recommendations).")
+    ap.add_argument("--out-json", default=f"indiana_awards_{datetime.now().strftime('%Y%m%d_%H%M')}.json",
+                    help="Output JSON filename.")
+    ap.add_argument("--out-dir", default="Indiana Attachments", help='Folder to store all ZIP files (default: "Indiana Attachments").')
+    ap.add_argument("--headless", action="store_true", help="Run Chrome in headless mode.")
+    args = ap.parse_args()
 
-    # Normalize requested range
-    range_start = _normalize_start(args.start_date) or datetime(2010, 1, 1)  # default lower bound
-    range_end   = _normalize_end(args.end_date)
-
-    # For the API paging, start from the requested lower bound to avoid 2010 floods
-    api_start = range_start
-
-    rows = scrape_indiana(
-        api_start=api_start,
-        page_size=args.page_size,
-        pause_sec=args.pause,
-        max_rows=args.max_rows,
-        range_start=range_start,
-        range_end=range_end,
-        filter_on=args.filter_on,
-    )
-
-    df = pd.DataFrame(rows)
-    if df.empty:
-        logging.warning("No rows matched the selected date filters. Writing headers only.")
-
-    out_path = args.out or ("indiana_contracts_" + datetime.now().strftime("%Y%m%d_%H%M") + ".xlsx")
-    _write_excel(df, out_path)
-    logging.info(f"Excel written to: {out_path}")
+    scrape_all(args)
 
 if __name__ == "__main__":
     main()
