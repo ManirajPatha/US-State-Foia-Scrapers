@@ -78,10 +78,12 @@ def extract_text_safely(element, selector, attr=None):
 def extract_field_value(row, field_label):
     """Extract field value after the label from paragraph text"""
     try:
+        # Find all p tags in the row
         paragraphs = row.find_elements(By.CSS_SELECTOR, "p")
         for p in paragraphs:
             text = p.text.strip()
             if field_label in text:
+                # Split by the label and get the part after it
                 value = text.split(field_label, 1)[1].strip()
                 return value
         return ""
@@ -99,6 +101,7 @@ def extract_contact_info(driver):
     }
     
     try:
+        # Look for contact information cells
         cells = driver.find_elements(By.CSS_SELECTOR, "div.esbd-result-cell")
         
         for cell in cells:
@@ -135,6 +138,7 @@ def extract_awards_info(driver):
     awards_data = []
     
     try:
+        # Look for award rows - make sure we're getting the data rows, not the header
         award_rows = driver.find_elements(By.CSS_SELECTOR, "div.esbd-awards-row")
         
         print(f"Found {len(award_rows)} award row elements")
@@ -186,6 +190,7 @@ def extract_awards_info(driver):
                     except:
                         award['award_status'] = ''
                     
+                    # Only add if we got at least the contractor name
                     if award['contractor']:
                         awards_data.append(award)
                         print(f"Extracted award: {award['contractor']}")
@@ -200,12 +205,38 @@ def extract_awards_info(driver):
     return awards_data
 
 
-def worker_process(worker_id, task_queue, result_queue, download_dir):
-    """Worker process that handles downloading attachments for opportunities"""
+def extract_attachment_names(driver):
+    """Extract attachment names without downloading"""
+    attachment_names = []
     
+    try:
+        # Look for attachment links
+        download_links = driver.find_elements(
+            By.CSS_SELECTOR, "a[data-action='downloadURL']"
+        )
+        
+        for link in download_links:
+            try:
+                att_name = link.text.strip()
+                if att_name:
+                    attachment_names.append(att_name)
+            except:
+                continue
+                
+    except Exception as e:
+        print(f"Error extracting attachment names: {str(e)[:50]}")
+    
+    return attachment_names
+
+
+def worker_process(worker_id, task_queue, result_queue, download_dir):
+    """Worker process that handles scraping attachment names for opportunities"""
+    
+    # Create worker-specific download directory (not used but kept for future)
     worker_download_dir = os.path.join(download_dir, f"temp_worker_{worker_id}")
     os.makedirs(worker_download_dir, exist_ok=True)
     
+    # Setup Chrome driver for this worker
     chrome_options = webdriver.ChromeOptions()
     prefs = {
         "download.default_directory": os.path.abspath(worker_download_dir),
@@ -216,7 +247,6 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
         "profile.default_content_setting_values.automatic_downloads": 1
     }
     chrome_options.add_experimental_option("prefs", prefs)
-    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
@@ -229,9 +259,10 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
         
         while True:
             try:
+                # Get task from queue with timeout
                 task = task_queue.get(timeout=10)
                 
-                if task is None:
+                if task is None:  # Poison pill to stop worker
                     print(f"[Worker {worker_id}] Received stop signal")
                     break
                 
@@ -239,19 +270,22 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                 print(f"[Worker {worker_id}] Processing: {opp['title'][:50]}...")
                 
                 try:
-
+                    # Navigate to opportunity page
                     driver.get(opp['href'])
                     time.sleep(3)
                     
+                    # Extract contact information
                     contact_info = extract_contact_info(driver)
                     opp.update(contact_info)
                     print(f"[Worker {worker_id}] ✓ Extracted contact info")
                     
+                    # Extract awards information
                     awards_data = extract_awards_info(driver)
                     
                     # If multiple awards, we'll store them as pipe-separated values
                     if awards_data:
                         opp['awards_count'] = len(awards_data)
+                        # Store first award details or aggregate
                         opp['contractor'] = ' | '.join([a['contractor'] for a in awards_data])
                         opp['mailing_address'] = ' | '.join([a['mailing_address'] for a in awards_data])
                         opp['value_per_contractor'] = ' | '.join([a['value_per_contractor'] for a in awards_data])
@@ -269,6 +303,20 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                         opp['award_status'] = ''
                         print(f"[Worker {worker_id}] No awards found")
                     
+                    # Extract attachment names (NEW - replaces download functionality)
+                    attachment_names = extract_attachment_names(driver)
+                    
+                    if attachment_names:
+                        opp['attachment_count'] = len(attachment_names)
+                        opp['attachments'] = ' | '.join(attachment_names)
+                        print(f"[Worker {worker_id}] ✓ Found {len(attachment_names)} attachment(s)")
+                    else:
+                        opp['attachment_count'] = 0
+                        opp['attachments'] = ''
+                        print(f"[Worker {worker_id}] No attachments found")
+                    
+                    # COMMENTED OUT: Download functionality
+                    # # Track existing files before downloading
                     existing_files = set(os.path.join(worker_download_dir, f) 
                                        for f in os.listdir(worker_download_dir))
                     
@@ -288,6 +336,7 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                     opp['attachment_count'] = len(download_links)
                     downloaded_files = []
                     
+                    # Download each attachment
                     for att_idx, link in enumerate(download_links, 1):
                         try:
                             att_name = link.text.strip()
@@ -300,17 +349,18 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                                 if latest_file:
                                     downloaded_files.append(latest_file)
                                     existing_files.add(latest_file)
-                                    print(f"[Worker {worker_id}]  Downloaded")
+                                    print(f"[Worker {worker_id}] ✓ Downloaded")
                                 else:
-                                    print(f"[Worker {worker_id}]  Could not find downloaded file")
+                                    print(f"[Worker {worker_id}] ✗ Could not find downloaded file")
                             else:
-                                print(f"[Worker {worker_id}]  Download timeout")
+                                print(f"[Worker {worker_id}] ✗ Download timeout")
                             
                             time.sleep(2)
                             
                         except Exception as e:
-                            print(f"[Worker {worker_id}]  Attachment error: {str(e)[:50]}")
+                            print(f"[Worker {worker_id}] ✗ Attachment error: {str(e)[:50]}")
                     
+                    # Create zip file for this opportunity
                     if downloaded_files:
                         safe_title = sanitize_filename(opp['title'] or opp['solicitation_id'])
                         zip_filename = f"{safe_title}_w{worker_id}.zip"
@@ -325,8 +375,9 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                         
                         create_zip(downloaded_files, zip_path)
                         opp['zip_file'] = zip_filename
-                        print(f"[Worker {worker_id}]  Created zip: {zip_filename} ({len(downloaded_files)} files)")
+                        print(f"[Worker {worker_id}] ✓ Created zip: {zip_filename} ({len(downloaded_files)} files)")
                         
+                        # Clean up downloaded files
                         for file in downloaded_files:
                             try:
                                 os.remove(file)
@@ -338,26 +389,27 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                     result_queue.put(opp)
                     
                 except Exception as e:
-                    print(f"[Worker {worker_id}]  Error processing opportunity: {str(e)[:100]}")
+                    print(f"[Worker {worker_id}] ✗ Error processing opportunity: {str(e)[:100]}")
                     opp['attachment_count'] = 0
-                    opp['zip_file'] = ""
+                    opp['attachments'] = ''
                     opp['error'] = str(e)[:200]
                     result_queue.put(opp)
                     
             except Empty:
                 continue
             except Exception as e:
-                print(f"[Worker {worker_id}]  Unexpected error: {str(e)}")
+                print(f"[Worker {worker_id}] ✗ Unexpected error: {str(e)}")
                 traceback.print_exc()
                 
     except Exception as e:
-        print(f"[Worker {worker_id}]  Fatal error: {str(e)}")
+        print(f"[Worker {worker_id}] ✗ Fatal error: {str(e)}")
         traceback.print_exc()
         
     finally:
         if driver:
             driver.quit()
         
+        # Clean up worker directory
         try:
             for file in os.listdir(worker_download_dir):
                 os.remove(os.path.join(worker_download_dir, file))
@@ -373,7 +425,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
     os.makedirs(download_dir, exist_ok=True)
     
     # Create queues for task distribution
-    task_queue = Queue(maxsize=20)
+    task_queue = Queue(maxsize=20)  # Limit queue size to prevent memory issues
     result_queue = Queue()
     
     # Start worker processes
@@ -385,6 +437,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
     
     print(f"Started {num_workers} worker processes")
     
+    # Setup main driver for page navigation
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
@@ -405,7 +458,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
         url = f"{base_url}/esbd?status=2&dateRange=lastFiscalYear&startDate=09%2F01%2F2024&endDate=08%2F31%2F2025"
         driver.get(url)
 
-        # Filters
+        # Apply filters
         status_dropdown = Select(wait.until(EC.presence_of_element_located((By.NAME, "status"))))
         status_dropdown.select_by_value("2")
 
@@ -428,6 +481,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
             
             time.sleep(3)
             
+            # Get all opportunity rows on current page
             opportunity_rows = driver.find_elements(By.CSS_SELECTOR, "div.esbd-result-row")
             
             print(f"Found {len(opportunity_rows)} opportunities on page {page_num}")
@@ -435,10 +489,12 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
             # Extract data from each opportunity row
             for row in opportunity_rows:
                 try:
+                    # Extract title and link
                     title_elem = row.find_element(By.CSS_SELECTOR, "div.esbd-result-title a")
                     title = title_elem.text.strip()
                     href = title_elem.get_attribute('href')
                     
+                    # Extract other details using the new function
                     solicitation_id = extract_field_value(row, "Solicitation ID:")
                     due_date = extract_field_value(row, "Due Date:")
                     due_time = extract_field_value(row, "Due Time:")
@@ -461,22 +517,25 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
                         'last_updated': last_updated
                     }
                     
+                    # Add to task queue for workers to process
                     total_opportunities_found += 1
                     print(f"[Main] Queuing opportunity {total_opportunities_found}: {title[:50]}")
                     task_queue.put(opp_data)
                     
                 except Exception as e:
-                    print(f"[Main]  Error extracting row data: {str(e)[:50]}")
+                    print(f"[Main] ✗ Error extracting row data: {str(e)[:50]}")
             
             # Increment page number
             page_num += 1
             
+            # Check if we've reached the page limit BEFORE trying to go to next page
             if max_pages and page_num > max_pages:
                 print(f"\n{'='*60}")
                 print(f"Reached page limit ({max_pages} pages)")
                 print(f"{'='*60}")
                 break
             
+            # Try to go to next page
             try:
                 next_button = driver.find_element(By.CSS_SELECTOR, "a#Next[aria-label='Next']")
                 next_class = next_button.get_attribute('class') or ""
@@ -528,32 +587,39 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
 
         # Save all scraped data to Excel
         if all_opportunities_data:
+            # Remove columns we don't want in Excel
             for opp in all_opportunities_data:
-                opp.pop('attachment_count', None)
-                opp.pop('zip_file', None)
                 opp.pop('href', None)
                 opp.pop('error', None)
             
+            # Reorder columns for better readability
             column_order = [
                 'title', 'solicitation_id', 'status', 
                 'due_date', 'due_time', 'response_due_date',
                 'agency', 'posting_date', 'created_date', 'last_updated',
                 'contact_name', 'contact_number', 'contact_email',
                 'awards_count', 'contractor', 'mailing_address', 
-                'value_per_contractor', 'hub_status', 'award_date', 'award_status'
+                'value_per_contractor', 'hub_status', 'award_date', 'award_status',
+                'attachment_count', 'attachments'
             ]
             
             df = pd.DataFrame(all_opportunities_data)
+            # Reorder columns (keep any extra columns at the end)
             existing_cols = [col for col in column_order if col in df.columns]
             other_cols = [col for col in df.columns if col not in column_order]
             df = df[existing_cols + other_cols]
             
             excel_file = os.path.join(download_dir, "opportunities_data.xlsx")
             df.to_excel(excel_file, index=False)
-            print(f"\n Saved data for {len(all_opportunities_data)} opportunities to: {excel_file}")
+            print(f"\n✓ Saved data for {len(all_opportunities_data)} opportunities to: {excel_file}")
+
+            # Save as JSON as well
+            json_file = os.path.join(download_dir, "opportunities_data.json")
+            df.to_json(json_file, orient="records", force_ascii=False, indent=2)
+            print(f"✓ Saved data as JSON to: {json_file}")
 
     except Exception as e:
-        print(f"\n Critical error: {str(e)}")
+        print(f"\n✗ Critical error: {str(e)}")
         traceback.print_exc()
         
     finally:
@@ -569,11 +635,12 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
         print("SCRAPING COMPLETED!")
         print(f"{'='*60}")
         if all_opportunities_data:
-            print(f"Data file: {os.path.abspath(download_dir)}/opportunities_data.xlsx")
-            print(f"Total opportunities: {len(all_opportunities_data)}")
-        print(f"Zip files: {os.path.abspath(download_dir)}/")
+            print(f"📊 Data file: {os.path.abspath(download_dir)}/opportunities_data.xlsx")
+            print(f"📊 Total opportunities: {len(all_opportunities_data)}")
         print(f"{'='*60}")
 
 
 if __name__ == "__main__":
+    # Set max_pages=None to process all pages, or set a number to limit
+    # num_workers=2 is safer, use 3 if you have good CPU/memory
     scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)

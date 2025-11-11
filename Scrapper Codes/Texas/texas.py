@@ -105,7 +105,6 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
         "profile.default_content_setting_values.automatic_downloads": 1
     }
     chrome_options.add_experimental_option("prefs", prefs)
-    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
@@ -149,6 +148,7 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                     opp['attachment_count'] = len(download_links)
                     downloaded_files = []
                     
+                    # Download each attachment
                     for att_idx, link in enumerate(download_links, 1):
                         try:
                             att_name = link.text.strip()
@@ -161,17 +161,18 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                                 if latest_file:
                                     downloaded_files.append(latest_file)
                                     existing_files.add(latest_file)
-                                    print(f"[Worker {worker_id}]  Downloaded")
+                                    print(f"[Worker {worker_id}] ✓ Downloaded")
                                 else:
-                                    print(f"[Worker {worker_id}]  Could not find downloaded file")
+                                    print(f"[Worker {worker_id}] ✗ Could not find downloaded file")
                             else:
-                                print(f"[Worker {worker_id}]  Download timeout")
+                                print(f"[Worker {worker_id}] ✗ Download timeout")
                             
                             time.sleep(2)
                             
                         except Exception as e:
-                            print(f"[Worker {worker_id}]  Attachment error: {str(e)[:50]}")
+                            print(f"[Worker {worker_id}] ✗ Attachment error: {str(e)[:50]}")
                     
+                    # Create zip file for this opportunity
                     if downloaded_files:
                         safe_title = sanitize_filename(opp['title'] or opp['solicitation_id'])
                         zip_filename = f"{safe_title}_w{worker_id}.zip"
@@ -186,8 +187,9 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                         
                         create_zip(downloaded_files, zip_path)
                         opp['zip_file'] = zip_filename
-                        print(f"[Worker {worker_id}]  Created zip: {zip_filename} ({len(downloaded_files)} files)")
+                        print(f"[Worker {worker_id}] ✓ Created zip: {zip_filename} ({len(downloaded_files)} files)")
                         
+                        # Clean up downloaded files
                         for file in downloaded_files:
                             try:
                                 os.remove(file)
@@ -199,7 +201,7 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
                     result_queue.put(opp)
                     
                 except Exception as e:
-                    print(f"[Worker {worker_id}]  Error processing opportunity: {str(e)[:100]}")
+                    print(f"[Worker {worker_id}] ✗ Error processing opportunity: {str(e)[:100]}")
                     opp['attachment_count'] = 0
                     opp['zip_file'] = ""
                     opp['error'] = str(e)[:200]
@@ -208,17 +210,18 @@ def worker_process(worker_id, task_queue, result_queue, download_dir):
             except Empty:
                 continue
             except Exception as e:
-                print(f"[Worker {worker_id}]  Unexpected error: {str(e)}")
+                print(f"[Worker {worker_id}] ✗ Unexpected error: {str(e)}")
                 traceback.print_exc()
                 
     except Exception as e:
-        print(f"[Worker {worker_id}]  Fatal error: {str(e)}")
+        print(f"[Worker {worker_id}] ✗ Fatal error: {str(e)}")
         traceback.print_exc()
         
     finally:
         if driver:
             driver.quit()
         
+        # Clean up worker directory
         try:
             for file in os.listdir(worker_download_dir):
                 os.remove(os.path.join(worker_download_dir, file))
@@ -267,7 +270,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
         url = f"{base_url}/esbd?status=2&dateRange=lastFiscalYear&startDate=09%2F01%2F2024&endDate=08%2F31%2F2025"
         driver.get(url)
 
-        # Filters
+        # Apply filters
         status_dropdown = Select(wait.until(EC.presence_of_element_located((By.NAME, "status"))))
         status_dropdown.select_by_value("2")
 
@@ -387,6 +390,7 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
                 print(f"[Main] Warning: Worker still alive, terminating...")
                 worker.terminate()
 
+        # Save all scraped data to Excel
         if all_opportunities_data:
             for opp in all_opportunities_data:
                 opp.pop('attachment_count', None)
@@ -397,10 +401,10 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
             df = pd.DataFrame(all_opportunities_data)
             excel_file = os.path.join(download_dir, "opportunities_data.xlsx")
             df.to_excel(excel_file, index=False)
-            print(f"\n Saved data for {len(all_opportunities_data)} opportunities to: {excel_file}")
+            print(f"\n✓ Saved data for {len(all_opportunities_data)} opportunities to: {excel_file}")
 
     except Exception as e:
-        print(f"\n Critical error: {str(e)}")
+        print(f"\n✗ Critical error: {str(e)}")
         traceback.print_exc()
         
     finally:
@@ -416,11 +420,13 @@ def scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
         print("SCRAPING COMPLETED!")
         print(f"{'='*60}")
         if all_opportunities_data:
-            print(f"Data file: {os.path.abspath(download_dir)}/opportunities_data.xlsx")
-            print(f"Total opportunities: {len(all_opportunities_data)}")
-        print(f"Zip files: {os.path.abspath(download_dir)}/")
+            print(f"📊 Data file: {os.path.abspath(download_dir)}/opportunities_data.xlsx")
+            print(f"📊 Total opportunities: {len(all_opportunities_data)}")
+        print(f"📦 Zip files: {os.path.abspath(download_dir)}/")
         print(f"{'='*60}")
 
 
 if __name__ == "__main__":
+    # Set max_pages=None to process all pages, or set a number to limit
+    # num_workers=2 is safer, use 3 if you have good CPU/memory
     scrape_and_download(download_dir="downloads", max_pages=None, num_workers=2)
