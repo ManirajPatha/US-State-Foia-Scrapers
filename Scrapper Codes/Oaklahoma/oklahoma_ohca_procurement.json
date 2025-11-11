@@ -1,0 +1,646 @@
+{
+  "source_url": "https://oklahoma.gov/ohca/about/procurement.html",
+  "scraped_at": "2025-10-30T18:56:59",
+  "rows": [
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Procurement Opportunity",
+        "links": []
+      },
+      "Amendments": {
+        "text": "Amendments",
+        "links": []
+      },
+      "Status": "Status",
+      "Closing Date": "Closing Date",
+      "Award Date": "Award Date",
+      "Total Annual Contract Value": "Total Annual Contract Value",
+      "Awardee(s)": "Awardee(s)",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_1",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_1.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "PHE Unwinding RFP",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/phe-unwinding-8070001430.html"
+        ]
+      },
+      "Amendments": {
+        "text": "Amendment 3 – February 15, 2023",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/phe-unwinding-8070001430/phe-unwinding-bidders-library-8070001430.html"
+        ]
+      },
+      "Status": "Awarded",
+      "Closing Date": "03/01/2023",
+      "Award Date": "4/2023",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "Unite USA Inc.",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_2.zip",
+      "attachments_downloaded": 23,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\RFP%20PHE%20Unwinding%20-%20Section%20A%20Scope%20of%20Work.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\PHE%20Unwinding%20-%20Section%20B-Contract%20Terms%20and%20Conditions.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\03%20Section%20C%20Instructions%20to%20Bidder.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\3.%20PHE%20Unwinding%20-%20Attachment%201-Bid%20Cover%20Page.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\Attachment%202-Checklist%20and%20Corporate%20Stability.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\5.%20PHE%20Unwinding%20-%20Attachment%203%20References.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\Attachment%204%20Scope%20of%20Work%20Narrative.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\PHE%20Unwinding%20-%20Attachment%205-Potential%20Optional%20Services.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\PHE%20Unwinding%20-%20Attachment%206-Pricing%20Corrected%20for%20Amendment%202.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\PHE%20Unwinding%20Bidder%20Questions%20and%20Answers%201.31.23.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\1.%20RFP%20PHE%20Unwinding%20-%20Section%20A%20Scope%20of%20Work.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\2.%20PHE%20Unwinding%20-%20Section%20B-Contract%20Terms%20and%20Conditions.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\3.%20PHE%20Unwinding%20-%20Attachment%201-Bid%20Cover%20Page (1).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\4.%20PHE%20Unwinding%20-%20%20Attachment%202-Checklist%20and%20Corporate%20Stability.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\5.%20PHE%20Unwinding%20-%20Attachment%203%20References (1).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\6.%20PHE%20Unwinding%20-%20Attachment%204-Specifications.docx.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\7.%20PHE%20Unwinding%20-%20Attachment%205-Technical%20Narrative.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\8.%20PHE%20Unwinding%20-%20Attachment%206-Potential%20Optional%20Services.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\9.%20PHE%20Unwinding%20-%20Attachment%207-Pricing.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\10.%20PHE%20Unwinding%20-%20Attachment%208-RFP%20Questions.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\Amendment%20One%201.18.2023.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\Amendment%20Two_1.31.23.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_2\\Amendment%20Three-2.15.2023.docx"
+      ],
+      "errors": [
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/phe-unwinding-8070001430.html (Message: stale element reference: stale element not found\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc30047]\n\t(No symbol) [0x0xc2ed10]\n\t(No symbol) [0x0xc250e2]\n\t(No symbol) [0x0xc251c6]\n\t(No symbol) [0x0xc23608]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)",
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/phe-unwinding-8070001430/phe-unwinding-bidders-library-8070001430.html (Message: stale element reference: stale element not found\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc30047]\n\t(No symbol) [0x0xc2ed10]\n\t(No symbol) [0x0xc250e2]\n\t(No symbol) [0x0xc251c6]\n\t(No symbol) [0x0xc23608]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)"
+      ]
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "SoonerSelect Dental RFP",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/soonerselect-dental-rfp-8070001412.html"
+        ]
+      },
+      "Amendments": {
+        "text": "Amendment 7 – October 27, 2022",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/soonerselect-dental-rfp-8070001412/soonerselect-dental-bidders-library-8070001412.html"
+        ]
+      },
+      "Status": "Awarded",
+      "Closing Date": "10/31/2022",
+      "Award Date": "",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_3.zip",
+      "attachments_downloaded": 44,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Dental%20RFP%20Amendment_3_10.27.22%20Final.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-A%20SoonerSelect%20Dental%20Solicitation%20Questions.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-B%20Bidder%20Proposal%20Submission%20Checklist.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-C%20Cover%20Page.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-D%20Bidder%20Representations%20and%20Certifications.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-D%20Bidder%20Representations%20and%20Certifications.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-E%20Oklahoma%20Experience.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-F%20Other%20State%20Medicaid%20Experience.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-G%20References.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-H%20Major%20Subcontractors.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-I%20Key%20Staff%20and%20Oklahoma%20Presence.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-J%20Plan%20Staffing.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-K%20Economic%20Impact.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-L%20Value-Added%20Benefits.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-M%20Call%20Center%20Performance.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-N%20Claims%20Processing.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-O%20SoonerSelect%20Dental%20Enrollee%20Grievances%20and%20Appeals%20Resolution.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-P%20Security%20Specifications.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-Q%20State%20of%20Oklahoma%20Security%20and%20Accreditation%20Assessment_10.18.22.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-R%20Contractor%20Performance%20History.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-S%20OMES%20Hosting%20Agreement.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-T%20New%20SoonerSelect%20Dental%20Enrollee%20Contact%20Rates.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-U%20CMS%20Minimum%20Acceptable%20Risk%20Safeguards%20for%20Exchanges%20(MARS-E)%20Suite%202.2.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412%20-%20V.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\SoonerSelect%20Dental%20Capitation%20Rate%20Briefing.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20One_9.30.22.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Appendix%20A%20-%20SoonerSelect%20Dental%20Covered%20Services.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Appendix%20A%20-%20SoonerSelect%20Dental%20Covered%20Services.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Appendix%20B%20-%20SoonerSelect%20Dental%20Rates%20Summary.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Appendix%20B%20-%20SoonerSelect%20Dental%20Rates%20Summary.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Appendix%20C%20-%20SoonerSelect%20Dental%20CRCS.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Appendix%20C%20-%20SoonerSelect%20Dental%20CRCS.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\SoonerSelect%20Dental%20Plan%20Databook%20Narrative.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\SoonerSelect%20Dental%20Plan%20DataBook%20Narrative.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\SoonerSelect%20Dental%20Plan%20Databook.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20Two%2010.4.22.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\12.%20SoonerSelect%20Dental%20Plan%20DataBook%20Updated%2010.3.22.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20Three_10.5.22.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20Four_Solicitation%20Questions_10.12.22.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-A%20SoonerSelect%20Dental%20Solicitation%20Questions%20and%20Answers.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Form%208070001412-A%20SoonerSelect%20Dental%20Solicitation%20Questions (1).xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20Five_10.14.22.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20Six_10.24.22.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_3\\Amendment%20Seven_10.27.22.docx"
+      ],
+      "errors": [
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/soonerselect-dental-rfp-8070001412.html (Message: stale element reference: stale element not found\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc30047]\n\t(No symbol) [0x0xc2ed10]\n\t(No symbol) [0x0xc250e2]\n\t(No symbol) [0x0xc251c6]\n\t(No symbol) [0x0xc23608]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)",
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/soonerselect-dental-rfp-8070001412/soonerselect-dental-bidders-library-8070001412.html (Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc24617]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)"
+      ]
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "External Quality Review Organization (EQRO) and Quality Improvement Organization (QIO) Contractor RFP",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/external-quality-review-organization--eqro--and-quality-improvem.html"
+        ]
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "02/09/21",
+      "Award Date": "3/2021",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "Kansas Foundation for Medical Care Inc. dba KFMC Health Improvement Partners",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_4.zip",
+      "attachments_downloaded": 21,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252%20Questions%20and%20Answers%20-%2012.22.20.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_01%20Section%20A%20Scope%20of%20Work.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_02%20Section%20B%20Contract%20Terms%20and%20Conditions.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_03%20Section%20C%20Instructions%20to%20Bidder.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_04%20Section%20D%20Evaluation%20and%20Award%20Instructions.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%201%20Proposal%20Cover%20Page%20EQRO-QIO.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%202%20Checklist%20and%20Corporate%20Stability.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%203a%20Reference%20List.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%203b%20EQRO_QIO%20Reference%20Form.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%204%20Key%20Positions%20EQRO-QIO.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%205a%20Technical%20Narrative.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%205b%20EQR_Relevant%20Experience.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%205b%20EQR_Relevant%20Experience (1).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%205c%20Medical-UR_Relevant%20Experience.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%205c%20Medical-UR_Relevant%20Experience (1).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%206%20Staffing%20and%20Pricing.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Attachment%207%20RFP%20Questions.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_EQRO%20QIO%20Consolidated%20Word%20Documents.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation%208070001252_Security%20Certification.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation_8070001252_Hosting%20Agreement.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_4\\Solicitation_8070001252_Security%20Specifications.xlsx"
+      ],
+      "errors": [
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/external-quality-review-organization--eqro--and-quality-improvem.html (Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc24617]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)"
+      ]
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "SoonerSelect Dental RFP",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/soonerselect-dental-rfp.html"
+        ]
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Closed",
+      "Closing Date": "12/15/2020",
+      "Award Date": "",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_5.zip",
+      "attachments_downloaded": 23,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\SoonerSelect%20Dental%20RFP%20%E2%80%93%208070001235%20(Updated%2011%2006%202020).pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Attachment_1_Tobacco_Cessation_Services.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Form%20A%20Dental%20Solicitation%20Questions%20and%20Answers%20(Updated%2011%2019%202020).pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Form%20B%20Bidder%20Proposal%20Submission%20Checklist%20(Updated%2011%2006%202020).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_C_Cover_Page_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_D_Bidder_Representations_and_Certifications%20DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_D_Bidder_Representations_and_Certifications%20DENTAL.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_E_Oklahoma%20Experience%20DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_F_Other_Medicaid_Experience%20DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Form%20G%20References%20(Updated%2011%2006%202020).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_H_Major_Subcontractors_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_I_Key_Staff_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_J_Plan_Staffing_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_K_Economic_Impact_DENTAL.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Form%20L%20Value%20Added%20Benefits%20(Updated%2011%2006%202020).docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_M_Call_Center_Performance_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_N_Claims_Processing_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_O_Dental_Health_Plan_Enrollee_Grievances_and_Appeals_Resolution_DENTAL.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Form%20P%20MCO%20Security%20Specifications%20(Updated%2011%2006%202020).xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_Q_OMES_Cloud_Security_Certification_DENTAL.xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Form%20R%20Contractor%20Performance%20History%20(Updated%2011%2006%202020).xlsx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_S_OMES_Hosting_Agreement.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_5\\Solicitation_8070001235_Form_T_New_Dental_Health_Plan_Enrollee_Contact_Rates.docx"
+      ],
+      "errors": [
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/soonerselect-dental-rfp.html (Message: stale element reference: stale element not found\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc30047]\n\t(No symbol) [0x0xc2ed10]\n\t(No symbol) [0x0xc250e2]\n\t(No symbol) [0x0xc251c6]\n\t(No symbol) [0x0xc23608]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)"
+      ]
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "SoonerSelect RFP",
+        "links": [
+          "https://oklahoma.gov/ohca/about/procurement/soonerselect-rfp.html"
+        ]
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Closed",
+      "Closing Date": "12/15/2020",
+      "Award Date": "",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_6",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_6.zip",
+      "attachments_downloaded": 4,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_6\\SoonerSelect%20Medical%2020201208.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_6\\Solicitation%208070001240%20-%20SoonerSelect%20RFP.pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_6\\Solicitation%208070001240%20-%20SoonerSelect%20RFP (1).pdf",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_6\\Solicitation_8070001240_Form_A_Solicitation_Questions.pdf"
+      ],
+      "errors": [
+        "Link failed: https://oklahoma.gov/ohca/about/procurement/soonerselect-rfp.html (Message: stale element reference: stale element not found\n  (Session info: chrome=141.0.7390.123); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0xe2fe43+66515]\n\tGetHandleVerifier [0x0xe2fe84+66580]\n\t(No symbol) [0x0xc1dc48]\n\t(No symbol) [0x0xc2fc3b]\n\t(No symbol) [0x0xc2ed10]\n\t(No symbol) [0x0xc250e2]\n\t(No symbol) [0x0xc251c6]\n\t(No symbol) [0x0xc23608]\n\t(No symbol) [0x0xc26c6c]\n\t(No symbol) [0x0xcadc3d]\n\t(No symbol) [0x0xc8b1cc]\n\t(No symbol) [0x0xcacba7]\n\t(No symbol) [0x0xc8afc6]\n\t(No symbol) [0x0xc5c2ca]\n\t(No symbol) [0x0xc5d154]\n\tGetHandleVerifier [0x0x1087353+2521315]\n\tGetHandleVerifier [0x0x10822d3+2500707]\n\tGetHandleVerifier [0x0xe57c94+229924]\n\tGetHandleVerifier [0x0xe481f8+165768]\n\tGetHandleVerifier [0x0xe4ecad+193085]\n\tGetHandleVerifier [0x0xe38158+100072]\n\tGetHandleVerifier [0x0xe382f0+100480]\n\tGetHandleVerifier [0x0xe225aa+11066]\n\tBaseThreadInitThunk [0x0x76be5d49+25]\n\tRtlInitializeExceptionChain [0x0x7775d6db+107]\n\tRtlGetAppContainerNamedObjectPath [0x0x7775d661+561]\n)"
+      ]
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Customer Contact Center Services RFI",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Closed",
+      "Closing Date": "06/19/2020",
+      "Award Date": "",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_7",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_7.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Electronic Health Records (EHR) Auditor RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "Amendment 3 - December 31, 2019",
+        "links": [
+          "https://oklahoma.gov/content/dam/ok/en/okhca/documents/procurement/15%20-%20Amendment%203%20-%2012.31.2019.docx"
+        ]
+      },
+      "Status": "Awarded",
+      "Closing Date": "2/06/2020",
+      "Award Date": "",
+      "Total Annual Contract Value": "$471,280.00",
+      "Awardee(s)": "",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_8",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_8.zip",
+      "attachments_downloaded": 1,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_8\\15%20-%20Amendment%203%20-%2012.31.2019.docx"
+      ],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Subscription for an Online Database Medical Research",
+        "links": [
+          "https://oklahoma.gov/content/dam/ok/en/okhca/documents/Solicitation--8079004170.docx"
+        ]
+      },
+      "Amendments": {
+        "text": "OMES-FORM-CP-011-Amendment",
+        "links": [
+          "https://oklahoma.gov/content/dam/ok/en/okhca/documents/procurement/OMES-FORM-CP-011-Amendment.docx"
+        ]
+      },
+      "Status": "Closed",
+      "Closing Date": "11/1/2019",
+      "Award Date": "",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_9",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_9.zip",
+      "attachments_downloaded": 2,
+      "downloaded_files": [
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_9\\Solicitation--8079004170.docx",
+        "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_9\\OMES-FORM-CP-011-Amendment.docx"
+      ],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Consulting Services RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "6/3/2019",
+      "Award Date": "10/1/2019",
+      "Total Annual Contract Value": "$2,000,000.00",
+      "Awardee(s)": "Pacific Health Policy Group, Mercer, Myers & Stauffer, and Navigant",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_10",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_10.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Health Management Program RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "1/3/2019",
+      "Award Date": "4/9/2019",
+      "Total Annual Contract Value": "$11,123,978.00",
+      "Awardee(s)": "Telligen Inc.",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_11",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_11.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "SoonerCare Member Advisory Task Force RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "12/13/2018",
+      "Award Date": "2/1/2019",
+      "Total Annual Contract Value": "$15,000.00",
+      "Awardee(s)": "Oklahoma Family Network, Inc.",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_12",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_12.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Focus on Excellence Nursing Facility Surveys",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "12/13/2018",
+      "Award Date": "1/1/2019",
+      "Total Annual Contract Value": "$119,500.00",
+      "Awardee(s)": "Myers and Stauffer LC",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_13",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_13.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Non-Emergency Transportation RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "5/2/2018",
+      "Award Date": "6/1/2018",
+      "Total Annual Contract Value": "",
+      "Awardee(s)": "Logisticare Solutions, LLC",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_14",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_14.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Sickle Cell Disease RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "9/15/2016",
+      "Award Date": "10/12/2016",
+      "Total Annual Contract Value": "$100,000.00",
+      "Awardee(s)": "Supporters of Families with Sickle Cell Disease",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_15",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_15.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "TPL (Third Party Liability) RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "3/27/2015",
+      "Award Date": "7/1/2015",
+      "Total Annual Contract Value": "$4,500,000.00",
+      "Awardee(s)": "Health Management Systems",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_16",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_16.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Multimedia Marketing Services RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "3/12/2015",
+      "Award Date": "4/16/2015",
+      "Total Annual Contract Value": "$450,000.00",
+      "Awardee(s)": "StapleGun Design Inc.",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_17",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_17.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "AVS (Asset Verification Services)",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "12/29/2014",
+      "Award Date": "1/20/2015",
+      "Total Annual Contract Value": "$800,000",
+      "Awardee(s)": "Public Consulting Group, Inc.",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_18",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_18.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Therapy Management",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "12/16/2013",
+      "Award Date": "7/15/2014",
+      "Total Annual Contract Value": "$800,000",
+      "Awardee(s)": "MedSolutions",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_19",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_19.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Radiology Management Program RFP",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "4/17/2013",
+      "Award Date": "10/13/2013",
+      "Total Annual Contract Value": "$1,800,000.00",
+      "Awardee(s)": "MedSolutions",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_20",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_20.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Member Advisory Task Force",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "5/13/2013",
+      "Award Date": "9/5/2013",
+      "Total Annual Contract Value": "$30,000.00",
+      "Awardee(s)": "Oklahoma Family Network",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_21",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_21.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "RAC (Recovery Audit Contractor)",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "11/26/2012",
+      "Award Date": "6/1/2013",
+      "Total Annual Contract Value": "$300,000",
+      "Awardee(s)": "Health Management Systems",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_22",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_22.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    },
+    {
+      "Requisition Number": "",
+      "Procurement Opportunity": {
+        "text": "Consulting Services",
+        "links": []
+      },
+      "Amendments": {
+        "text": "",
+        "links": []
+      },
+      "Status": "Awarded",
+      "Closing Date": "3/12/2013",
+      "Award Date": "7/1/2013",
+      "Total Annual Contract Value": "$400,000",
+      "Awardee(s)": "Lewin Group, Mercer, Myers & Stauffer, and Pacific Health Policy Group",
+      "download_folder": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\work\\row_23",
+      "zip_path": "C:\\Users\\MANIRAJ\\OneDrive\\Documents\\Scrapper\\Scrapper-Request\\Oaklahoma\\Oklahoma Attachments\\row_23.zip",
+      "attachments_downloaded": 0,
+      "downloaded_files": [],
+      "errors": []
+    }
+  ]
+}
