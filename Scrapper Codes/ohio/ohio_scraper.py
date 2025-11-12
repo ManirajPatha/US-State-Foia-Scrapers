@@ -61,10 +61,10 @@ class OhioBuysScraper:
             search_button.click()
             self.wait_for_page_load()
             
-            print(" Filter applied: Awarded = Yes")
+            print("Filter applied: Awarded = Yes")
             return True
         except Exception as e:
-            print(f" Error applying filter: {e}")
+            print(f"Error applying filter: {e}")
             return False
     
     def navigate_to_page(self, page_index):
@@ -73,18 +73,18 @@ class OhioBuysScraper:
             if page_index == 0:
                 return True
             
-            print(f" Navigating to page {page_index + 1}...")
+            print(f"Navigating to page {page_index + 1}...")
             
             script = f"__ivCtrl['body_x_grid_grd'].GoToPageOfGrid(0, {page_index});"
             self.driver.execute_script(script)
             self.wait_for_page_load()
             time.sleep(2)
             
-            print(f" Now on page {page_index + 1}")
+            print(f"Now on page {page_index + 1}")
             return True
             
         except Exception as e:
-            print(f" Error navigating to page {page_index + 1}: {e}")
+            print(f"✗ Error navigating to page {page_index + 1}: {e}")
             return False
     
     def get_current_page_number(self):
@@ -120,16 +120,17 @@ class OhioBuysScraper:
             
             next_page_index = int(next_button.get_attribute('data-page-index'))
             
+            # Click next page button
             next_button.click()
             self.wait_for_page_load()
             time.sleep(2)
             
             self.current_page = next_page_index
-            print(f" Moved to page {self.current_page + 1}")
+            print(f"Moved to page {self.current_page + 1}")
             return True
             
         except Exception as e:
-            print(f" Error going to next page: {e}")
+            print(f"Error going to next page: {e}")
             return False
     
     def get_all_opportunity_links(self):
@@ -140,6 +141,7 @@ class OhioBuysScraper:
             )
             time.sleep(2)
             
+            # Find all edit buttons (opportunity links)
             links = self.driver.find_elements(
                 By.XPATH, 
                 "//a[contains(@id, '_img___colManagegrid') and contains(@class, 'iv-button')]"
@@ -151,10 +153,10 @@ class OhioBuysScraper:
                 if href:
                     opportunity_urls.append(href)
             
-            print(f" Found {len(opportunity_urls)} opportunities on this page")
+            print(f"Found {len(opportunity_urls)} opportunities on this page")
             return opportunity_urls
         except Exception as e:
-            print(f" Error getting opportunity links: {e}")
+            print(f"Error getting opportunity links: {e}")
             return []
     
     def scrape_opportunity_details(self):
@@ -193,28 +195,30 @@ class OhioBuysScraper:
                 'Solicitation Status': status
             }
             
-            print(f" Scraped: {solicitation_id} - {solicitation_name}")
+            print(f"Scraped: {solicitation_id} - {solicitation_name}")
             return opportunity_data
         except Exception as e:
-            print(f" Error scraping opportunity details: {e}")
+            print(f"Error scraping opportunity details: {e}")
             return None
     
     def download_documents(self, solicitation_id):
         """Download all documents from Solicitation Documents section"""
         try:
+            # Create a folder for this solicitation's documents
             doc_folder = os.path.join(self.download_path, f"{solicitation_id}_docs")
             os.makedirs(doc_folder, exist_ok=True)
             
+            # Find all download links in the Att. column
             download_links = self.driver.find_elements(
                 By.XPATH,
                 "//a[contains(@class, 'iv-download-file') and contains(@href, '/bare.aspx/en/fil/download_public/')]"
             )
             
             if not download_links:
-                print(f" No documents found for {solicitation_id}")
+                print(f"No documents found for {solicitation_id}")
                 return None
             
-            print(f" Downloading {len(download_links)} document(s)...")
+            print(f"Downloading {len(download_links)} document(s)...")
             
             downloaded_files = []
             for i, link in enumerate(download_links, 1):
@@ -223,38 +227,43 @@ class OhioBuysScraper:
                     if not file_name:
                         file_name = f"document_{i}.pdf"
                     
+                    # Click to download
                     self.driver.execute_script("arguments[0].click();", link)
                     time.sleep(3)
                     
+                    # Wait for file to complete downloading
                     self.wait_for_download_complete()
                     
+                    # Move the downloaded file to the specific folder
                     latest_file = self.get_latest_file(self.download_path)
                     if latest_file:
                         new_path = os.path.join(doc_folder, file_name)
                         os.rename(latest_file, new_path)
                         downloaded_files.append(new_path)
-                        print(f" Downloaded: {file_name}")
+                        print(f"Downloaded: {file_name}")
                     
                 except Exception as e:
-                    print(f" Error downloading document {i}: {e}")
+                    print(f"Error downloading document {i}: {e}")
                     continue
             
+            # Create a zip file
             if downloaded_files:
                 zip_filename = os.path.join(self.download_path, f"{solicitation_id}_documents.zip")
                 with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
                     for file in downloaded_files:
                         zipf.write(file, os.path.basename(file))
                 
+                # Remove the temporary folder
                 import shutil
                 shutil.rmtree(doc_folder)
                 
-                print(f"   Created zip: {zip_filename}")
+                print(f"Created zip: {zip_filename}")
                 return zip_filename
             
             return None
             
         except Exception as e:
-            print(f" Error downloading documents: {e}")
+            print(f"Error downloading documents: {e}")
             return None
     
     def wait_for_download_complete(self, timeout=60):
@@ -286,7 +295,7 @@ class OhioBuysScraper:
     def return_to_list_page_with_filters(self):
         """Navigate back to the main list page and restore filters and page position"""
         try:
-            print(f"  ← Returning to list page {self.current_page + 1}...")
+            print(f"Returning to list page {self.current_page + 1}...")
             
             # Go back to the main page
             self.driver.get("https://ohiobuys.ohio.gov/page.aspx/en/rfp/request_browse_public?historyBack=1")
@@ -304,7 +313,7 @@ class OhioBuysScraper:
             return True
             
         except Exception as e:
-            print(f"✗ Error returning to list page: {e}")
+            print(f"Error returning to list page: {e}")
             return False
     
     def save_to_excel(self, filename="ohiobuys_awarded_solicitations.xlsx"):
@@ -316,7 +325,7 @@ class OhioBuysScraper:
         df = pd.DataFrame(self.data)
         excel_path = os.path.join(self.download_path, filename)
         df.to_excel(excel_path, index=False)
-        print(f"\n✓ Data saved to: {excel_path}")
+        print(f"\nData saved to: {excel_path}")
         print(f"  Total records: {len(self.data)}")
     
     def scrape_all_opportunities(self, max_pages=None):
@@ -338,38 +347,43 @@ class OhioBuysScraper:
                     print(f"\nReached maximum page limit: {max_pages}")
                     break
                 
-                print(f"\n{'='*60}")
                 print(f"Processing Page {self.current_page + 1}")
-                print(f"{'='*60}")
                 
+                # Get all opportunity links on current page
                 opportunity_urls = self.get_all_opportunity_links()
                 
                 if not opportunity_urls:
                     print("No opportunities found on this page.")
                     break
                 
+                # Process each opportunity on the current page
                 for idx, url in enumerate(opportunity_urls, 1):
                     print(f"\n[Page {self.current_page + 1} - {idx}/{len(opportunity_urls)}] Processing opportunity...")
                     
+                    # Navigate to opportunity page
                     self.driver.get(url)
                     self.wait_for_page_load()
                     
+                    # Scrape details
                     opportunity_data = self.scrape_opportunity_details()
                     if opportunity_data:
+                        # Download documents
                         zip_file = self.download_documents(opportunity_data['Solicitation ID'])
                         
                         self.data.append(opportunity_data)
                         total_opportunities_processed += 1
                     
+                    # Return to list page with filters and correct page
                     if not self.return_to_list_page_with_filters():
                         print("Failed to return to list page. Stopping.")
                         break
                 
+                # Check if there's a next page
                 if not self.has_next_page():
-                    print("\n No more pages available. Scraping complete!")
+                    print("\nNo more pages available. Scraping complete!")
                     break
                 
-                print("\n" + "="*60)
+                # Move to next page
                 if not self.go_to_next_page():
                     print("Failed to navigate to next page. Stopping.")
                     break
@@ -384,7 +398,7 @@ class OhioBuysScraper:
             self.save_to_excel()
             
         except Exception as e:
-            print(f"\n Critical error in main scraping function: {e}")
+            print(f"\nCritical error in main scraping function: {e}")
             if self.data:
                 self.save_to_excel()
     
@@ -392,21 +406,21 @@ class OhioBuysScraper:
         """Close the browser"""
         if self.driver:
             self.driver.quit()
-            print("\n Browser closed")
+            print("\nBrowser closed")
+
 
 def main():
     scraper = OhioBuysScraper(download_path="downloads")
     
     try:
-        # Scrape all opportunities (or set max_pages to limit)
         scraper.scrape_all_opportunities(max_pages=None)
         
     except KeyboardInterrupt:
-        print("\n\n Scraping interrupted by user")
+        print("\n\nScraping interrupted by user")
         scraper.save_to_excel()
     
     except Exception as e:
-        print(f"\n Unexpected error: {e}")
+        print(f"\nUnexpected error: {e}")
     
     finally:
         scraper.close()
